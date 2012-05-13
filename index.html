@@ -318,7 +318,10 @@
 						calculateSegment(segmentArray.pop(), false);
 					}
 					if (needToRepaint) {
-						window.webkitRequestAnimationFrame(repaint);
+						if (window.webkitRequestAnimationFrame)
+							window.webkitRequestAnimationFrame(repaint);
+						else
+							repaint();
 					}
 				}
 			
