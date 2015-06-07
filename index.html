@@ -11,7 +11,7 @@
 		<script>
 		
 		
-			var gl, hslToRgbProgram, calcProgram, calcPreCalcProgram, preCalcProgramRe, preCalcProgramIm, frame0, frame1, preCalcFrameRe, preCalcFrameIm;
+			var gl, hslToRgbProgram, calcProgram, frame0, frame1;
 			var segmentArray = [];
 			var drawPrecision = 0.002;
 			var landOnGrid = true;
@@ -39,34 +39,19 @@
 				
 				frame0 = createFrame(512);
 				frame1 = createFrame(512);
-				preCalcFrameRe = createFrame(1024);
-				preCalcFrameIm = createFrame(1024);
 				
 				var vertexShader = getShader("shader-vertex");
 				var hslToRgbShader = getShader("shader-hsltorgb");
 				var calcShader = getShader("shader-calc");
-				var calcShaderPreCalc = getShader("shader-precalc");
-				var preCalcShaderRe = getShader("shader-precalc-re");
-				var preCalcShaderIm = getShader("shader-precalc-im");
 
 				hslToRgbProgram = getProgram(vertexShader,hslToRgbShader);
 				calcProgram = getProgram(vertexShader,calcShader);
-				calcPreCalcProgram = getProgram(vertexShader,calcShaderPreCalc);
-				preCalcProgramRe = getProgram(vertexShader,preCalcShaderRe);
-				preCalcProgramIm = getProgram(vertexShader,preCalcShaderIm);
-				
-				preCalc();
 				
 				// input hooks				
 				var hslSamp = gl.getUniformLocation(hslToRgbProgram, "u_hslSamp");
 				var calcSamp = gl.getUniformLocation(calcProgram, "u_calcSamp");
 				var aVec2    = gl.getUniformLocation(calcProgram, "u_a");
 				var dxVec2   = gl.getUniformLocation(calcProgram, "u_dx");
-				var calcSampPreCalc = gl.getUniformLocation(calcPreCalcProgram, "u_calcSamp");
-				var reSamp = gl.getUniformLocation(calcPreCalcProgram, "u_precalcRe");
-				var ImSamp = gl.getUniformLocation(calcPreCalcProgram, "u_precalcIm");
-				var aVec2PreCalc    = gl.getUniformLocation(calcPreCalcProgram, "u_a");
-				var dxVec2reCalc   = gl.getUniformLocation(calcPreCalcProgram, "u_dx");
 				gl.enableVertexAttribArray(0);
 				
 				createVertices();
@@ -74,9 +59,6 @@
 				// data setup
 				gl.uniform1i(hslSamp, 0);
 				gl.uniform1i(calcSamp, 0);
-				gl.uniform1i(calcSampPreCalc, 0);
-				gl.uniform1i(reSamp, 1);
-				gl.uniform1i(ImSamp, 2);
 				
 				// calc	config			
 				var lastFrameOutput = 1;
@@ -243,7 +225,7 @@
 				
 				
 				
-				function calculateSegment(currentPoint, precalc) {
+				function calculateSegment(currentPoint) {
 					var currentTexture, currentFrameBuffer;
 					if ( lastFrameOutput == 1 ) {
 					 	currentTexture = frame1.texture;
@@ -257,16 +239,10 @@
 					gl.bindTexture(gl.TEXTURE_2D, currentTexture);
 					gl.bindFramebuffer(gl.FRAMEBUFFER, currentFrameBuffer);
 					
-					if (precalc) {
-						gl.useProgram(calcPreCalcProgram);
-						gl.uniform2f(aVec2PreCalc , currentPoint[0], currentPoint[1]);
-						gl.uniform2f(dxVec2reCalc, currentPoint[2], currentPoint[3]);
-
-					} else {
-						gl.useProgram(calcProgram);
-						gl.uniform2f(aVec2 , currentPoint[0], currentPoint[1]);
-						gl.uniform2f(dxVec2, currentPoint[2], currentPoint[3]);
-					}					
+					gl.useProgram(calcProgram);
+					gl.uniform2f(aVec2 , currentPoint[0], currentPoint[1]);
+					gl.uniform2f(dxVec2, currentPoint[2], currentPoint[3]);
+				
 					gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
 					gl.flush(); 
 					needToRepaint = true;
@@ -315,11 +291,11 @@
 					document.getElementById('console').value = "Dernier temps: " + lastRepaintTime + "ms. Rajout de " + numberOfCalcCycles + " cycles. Plus que: " + segmentArray.length + " segments.";
 
 					for(var i = 0 ; i < numberOfCalcCycles && segmentArray.length > 0 ; i++) {
-						calculateSegment(segmentArray.pop(), false);
+						calculateSegment(segmentArray.pop());
 					}
 					if (needToRepaint) {
-						if (window.webkitRequestAnimationFrame)
-							window.webkitRequestAnimationFrame(repaint);
+						if (window.requestAnimationFrame)
+							window.requestAnimationFrame(repaint);
 						else
 							repaint();
 					}
@@ -357,6 +333,7 @@
 					console.log(e.toString()); 
 				}
 				result.getExtension("OES_texture_float");
+				result.getExtension("OES_texture_float_linear");
 				return result;			
 			}
 			
@@ -399,31 +376,6 @@
 				var vertices = [ -1., -1., 1., -1., 1., 1., -1., 1., -1., -1. ];
 				gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 				gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-			}
-			
-			function preCalc(){
-				var precision  = gl.getUniformLocation(preCalcProgramRe, "u_precision");
-				gl.uniform1f(precision , drawPrecision);
-				gl.useProgram(preCalcProgramRe);
-				gl.bindFramebuffer(gl.FRAMEBUFFER, preCalcFrameRe.frameBuffer);
-				gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
-				gl.flush(); 
-				
-				var precision  = gl.getUniformLocation(preCalcProgramIm, "u_precision");
-				gl.uniform1f(precision , drawPrecision);
-				gl.useProgram(preCalcProgramIm);
-				gl.bindFramebuffer(gl.FRAMEBUFFER, preCalcFrameIm.frameBuffer);
-				gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
-				gl.flush(); 
-				
-				gl.activeTexture(gl.TEXTURE1);
-				gl.bindTexture(gl.TEXTURE_2D, preCalcFrameRe.texture);
-				
-				gl.activeTexture(gl.TEXTURE2);
-				gl.bindTexture(gl.TEXTURE_2D, preCalcFrameIm.texture);
-				
-				// reset. Useful where?
-				gl.activeTexture(gl.TEXTURE0);
 			}
 			
 			// shapes
@@ -581,55 +533,6 @@
 				vec2 delta = pos - u_a;
 				float denom = dot( delta , delta );
 				gl_FragColor = vec4( prev.x + ( delta.x * u_dx.y - delta.y * u_dx.x) / denom  , prev.y + dot( delta , u_dx ) / denom , 1.0 , 1.0 );
-			}
-		</script>
-		<script id="shader-precalc" type="x-shader/x-fragment">
-			#ifdef GL_ES
-			precision highp float;
-			#endif
-			
-			uniform sampler2D u_calcSamp;
-			uniform sampler2D u_precalcRe;
-			uniform sampler2D u_precalcIm;
-			uniform vec2 u_a;
-			uniform vec2 u_dx;
-			
-			void main(void)
-			{
-				vec2 pos = gl_FragCoord.xy / 512.0;
-				vec2 prev = texture2D( u_calcSamp , pos ).xy;
-				vec2 delta = pos - u_a;
-				vec2 dxRe = texture2D( u_precalcRe , delta ).xy;
-				vec2 dxIm = texture2D( u_precalcIm , delta ).xy;
-				gl_FragColor = vec4( prev.x + dxRe.x + dxIm.x , prev.y + dxIm.y + dxIM.y , 1.0 , 1.0 );
-			}
-		</script>
-		<script id="shader-precalc-re" type="x-shader/x-fragment">
-			#ifdef GL_ES
-			precision highp float;
-			#endif
-			
-			uniform float u_precision;
-			
-			void main(void)
-			{
-				vec2 delta = (gl_FragCoord.xy / 512.0) - 1.0;
-				float denom = dot( delta , delta );
-				gl_FragColor = vec4( prev.x + ( - delta.y * u_precision) / denom  , prev.y + delta.x * u_precision / denom , 1.0 , 1.0 );
-			}
-		</script>
-		<script id="shader-precalc-im" type="x-shader/x-fragment">
-			#ifdef GL_ES
-			precision highp float;
-			#endif
-			
-			uniform float u_precision;
-			
-			void main(void)
-			{
-				vec2 delta = (gl_FragCoord.xy / 512.0) - 1.0;
-				float denom = dot( delta , delta );
-				gl_FragColor = vec4( prev.x + ( delta.x * u_dx.y ) / denom  , prev.y + delta.y * u_precision / denom , 1.0 , 1.0 );
 			}
 		</script>
 		<script id="shader-vertex" type="x-shader/x-vertex">
