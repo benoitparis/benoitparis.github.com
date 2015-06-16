@@ -9,7 +9,7 @@
 		<canvas id="canvasIntegral" style="cursor: pointer;" width="512" height="512">This animations requires WebGL</canvas></br>
 		<input id="console" type="text" value=".." style="width:512px;"></input>
 		<script type="text/javascript" src="contour.js"></script>
-		<script id="shader-hsltorgb" type="x-shader/x-fragment">
+		<script id="fragment-shader-hsltorgb" type="x-shader/x-fragment">
 			#ifdef GL_ES
 			precision highp float;
 			#endif
@@ -55,7 +55,7 @@
 				gl_FragColor = vec4( r1 + m , g1 + m , b1 + m , 1.0 );
 			}
 		</script>
-		<script id="shader-calc" type="x-shader/x-fragment">
+		<script id="fragment-shader-calc" type="x-shader/x-fragment">
 			#ifdef GL_ES
 			precision highp float;
 			#endif
@@ -73,7 +73,7 @@
 				gl_FragColor = vec4( prev.x + ( delta.x * u_dx.y - delta.y * u_dx.x) / denom  , prev.y + dot( delta , u_dx ) / denom , 1.0 , 1.0 );
 			}
 		</script>
-		<script id="shader-vertex" type="x-shader/x-vertex">
+		<script id="vertex-shader-identity" type="x-shader/x-vertex">
 			attribute vec2 a_pos;
 			void main() {
 				gl_Position = vec4(a_pos.x,a_pos.y,0.0,1.0);

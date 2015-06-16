@@ -1,11 +1,12 @@
 // Settings
 var CANVAS_SIZE_PX = 512;
-var drawPrecision  = 1 / (2 * CANVAS_SIZE_PX); // 4 recommended (1: half-pixel precision, 1024: dont cut-off lines)
+var drawPrecision  = 4 / (2 * CANVAS_SIZE_PX); // 4 recommended (1: half-pixel precision, 1024: dont cut-off lines)
 
 var repaint;           // Global function. Needs to be called after adding segments to be drawn.
 var segmentArray = []; // Where the dz segments are store.
 var gl;                // Binded on the canvas.
 
+// Pipeline setup
 function start() {
 
 	var canvas = document.getElementById("canvasIntegral");
@@ -16,29 +17,27 @@ function start() {
 	var frame0 = createFrame(CANVAS_SIZE_PX);
 	var frame1 = createFrame(CANVAS_SIZE_PX);
 	
-	//// Pipeline setup
+	//// Pipeline and loop definition
 	/*
-		UI --(pushes)--> dz segments in segmentArray --(pops several)--> Integral part for each dz              ---> hsl to rgb on canvas
-		         |                                           |           frame0 swapped with frame1 for each dz               |
-		         |                                           |           (you can't write where you read)                     |
-                 |                                           |                        |                                       |             
-                 |                                           |                        |                                       |            
-              line()                                       run()  --synch-----> calculateSegment()                         repaintCanvas(), which sees what framerate the user sees
-                                                                  --asynch----------------------------------------------->          
-                                                                  <-synch, with framerate information stored -------------
+		UI --(pushes)--> dz segments in segmentArray --(pops several)--> Integral part for each dz ---> hsl to rgb on canvas
+                 |                                           |                        |                         |             
+                 |                                           |                        |                         |            
+              line()                                       run()  --synch-----> calculateSegment()          repaintCanvas(), which sees what framerate the user sees
+                                                                  --asynch--------------------------------->          
+                                                                  <-synch, with framerate information ------
 
-                                                                  This loop is activated only if there are segments
-                                                                  to be calculated. The synch calls to calculateSegment() 
-                                                                  are made to leave time for a smooth framerate with repaint()s, 
-                                                                  while calculating the most segments possible.
+                                                           This loop is stays active until  there are no more segments
+                                                           to be calculated. The synch calls to calculateSegment() 
+                                                           are made to target a smooth repaint framerate, while 
+                                                           calculating the most segments possible.
         repaint() will activate the loop, in a singleton manner.
 	*/
-	// pipeline definition
-	var vertexShader   = getShader("shader-vertex");
-	var hslToRgbShader = getShader("shader-hsltorgb");
-	var calcShader     = getShader("shader-calc");
-	var hslToRgbProgram = getProgram(vertexShader, hslToRgbShader);
-	var calcProgram     = getProgram(vertexShader, calcShader);
+	// shader definitions
+	var identityVertexShader = getShader("vertex-shader-identity");
+	var hslToRgbShader = getShader("fragment-shader-hsltorgb");
+	var calcShader     = getShader("fragment-shader-calc");
+	var hslToRgbProgram = getProgram(identityVertexShader, hslToRgbShader);
+	var calcProgram     = getProgram(identityVertexShader, calcShader);
 	createVertices();
 
 	// Variable binding
@@ -46,50 +45,7 @@ function start() {
 	var dxVec2 = gl.getUniformLocation(calcProgram, "u_dx");
 
 
-
 	// pipeline usage
-	var lastRepaintDate = Date.now();
-	var lastRepaintTime = 250;
-	function repaintCanvas() {
-		gl.useProgram(hslToRgbProgram);
-		gl.bindTexture(gl.TEXTURE_2D, lastFrameOutput == 1 ? frame1.texture : frame0.texture );
-		gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
-		gl.flush();
-		var now = Date.now();
-		lastRepaintTime = now - lastRepaintDate;
-		lastRepaintDate = now ;					
-		needToRepaint = false;					
-		run();
-	}
-	
-	var numberOfCalcCycles = 100;
-	var MIN_CALC_CYCLES = 5;
-	// benchmark and UX says 15Hz is a good target.
-	var IDEAL_FRAME_TIME = 1000 / 15;
-	var GPU_JITTER_SMOOTHING_FACTOR = 10;
-	running = false;
-	function run() {
-		running = true;
-		numberOfCalcCycles = Math.min(
-			segmentArray.length,
-			Math.max(
-				MIN_CALC_CYCLES,
-				numberOfCalcCycles * ( 1 + ((IDEAL_FRAME_TIME - lastRepaintTime) / IDEAL_FRAME_TIME) / GPU_JITTER_SMOOTHING_FACTOR ) // adaptative 
-			)
-		);
-		document.getElementById('console').value = "Last duration: " + lastRepaintTime + "ms. Adding " + Math.floor(numberOfCalcCycles) + " cycles between frames. Segments left: " + segmentArray.length + ".";
-
-		for(var i = 0 ; i < numberOfCalcCycles && segmentArray.length > 0 ; i++) {
-			calculateSegment(segmentArray.pop());
-		}
-		if (needToRepaint) {
-			window.requestAnimationFrame(repaintCanvas);
-		} else {
-			running = false;
-		}
-	}
-
 	var lastFrameOutput = 1;
 	var needToRepaint = true;
 	function calculateSegment(currentPoint) {
@@ -117,6 +73,48 @@ function start() {
 		needToRepaint = true;
 	}
 
+	var lastRepaintDate = Date.now();
+	var lastRepaintTime = 250;
+	function repaintCanvas() {
+		gl.useProgram(hslToRgbProgram);
+		gl.bindTexture(gl.TEXTURE_2D, lastFrameOutput == 1 ? frame1.texture : frame0.texture );
+		gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
+		gl.flush();
+		var now = Date.now();
+		lastRepaintTime = now - lastRepaintDate;
+		lastRepaintDate = now ;					
+		needToRepaint = false;					
+		run();
+	}
+	
+	var numberOfCalcCycles = 100;
+	var MIN_CALC_CYCLES = 5;
+	// hackish benchmark and UX say 25Hz is a good target.
+	var IDEAL_FRAME_TIME = 1000 / 25;
+	var GPU_JITTER_SMOOTHING_FACTOR = 10;
+	var running = false;
+	function run() {
+		running = true;
+		numberOfCalcCycles = Math.min(
+			segmentArray.length,
+			Math.max(
+				MIN_CALC_CYCLES,
+				numberOfCalcCycles * ( 1 + ((IDEAL_FRAME_TIME - lastRepaintTime) / IDEAL_FRAME_TIME) / GPU_JITTER_SMOOTHING_FACTOR ) // adaptative 
+			)
+		);
+		document.getElementById('console').value = "Last duration: " + lastRepaintTime + "ms. Adding " + Math.floor(numberOfCalcCycles) + " cycles between frames. Segments left: " + segmentArray.length + ".";
+
+		for(var i = 0 ; i < numberOfCalcCycles && segmentArray.length > 0 ; i++) {
+			calculateSegment(segmentArray.pop());
+		}
+		if (needToRepaint) {
+			window.requestAnimationFrame(repaintCanvas);
+		} else {
+			running = false;
+		}
+	}
+
 
 	//// function export
 	repaint = function () {
@@ -133,19 +131,7 @@ function start() {
 
 
 // shapes
-function performanceTestShape() {
-	// -!TODO- find what the grid is for ~(drawPrecision optimal tuning)
-	// --> good grid here is : 
-	//  / / / /
-	// / / / /  with 1/512 = 0.00048828125*4 as step
-	for (var i = 0 ; i < 2047 ; i++){
-		segmentArray.push([1.0 - i/2047 , 1.0 - i/2047, 1/2047, 1/2047]);
-	}
-	repaint();
-}
-
-// TODO gerer le segment simple aussi
-function line(points){
+function line(points) {
 	var ax = points[0];
 	var ay = points[1];
 	var bx = points[2];
@@ -154,28 +140,23 @@ function line(points){
 	var cx = (ax+bx)/2.0;
 	var cy = (ay+by)/2.0;
 	if (Math.abs(ax-bx) > drawPrecision*2 || Math.abs(ay-by) > drawPrecision*2 ) {
-		line([ax,ay,cx,cy]);
-		line([cx,cy,bx,by]);
+		line([ax, ay, cx, cy        ]);
+		line([        cx, cy, bx, by]);
 	} else {
 		segmentArray.push([ cx, cy, bx-ax, by-ay ]);
 	}
-	
 }
-function getGridPoint(p) {
-	return Math.round(p*CANVAS_SIZE_PX)/CANVAS_SIZE_PX;
+function rect(ax, ay, sx, sy) {
+	line([ax   ,ay   ,ax+sx,   ay]);
+	line([ax+sx,ay   ,ax+sx,ay+sy]);
+	line([ax+sx,ay+sy,ax   ,ay+sy]);
+	line([ax,   ay+sy,ax   ,ay   ]);
 }
-
-function rect( ax, ay, sx, sy){
-	line([ax,ay,ax+sx,ay]);
-	line([ax+sx,ay,ax+sx,ay+sy]);
-	line([ax+sx,ay+sy,ax,ay+sy]);
-	line([ax,ay+sy,ax,ay]);
-}
-function circle( ax, ay, r ){
+function circle(ax, ay, r ) {
 	var iMax = Math.ceil(2 * Math.PI * r / drawPrecision);
 	var lastX = ax + r;
 	var lastY = ay;
-	for ( var i = 0; i<=iMax; i++){
+	for ( var i = 0; i<=iMax; i++) {
 		var theta = i / iMax * 2 * Math.PI;
 		var newX = ax + r * Math.cos(theta);
 		var newY = ay + r * Math.sin(theta);
@@ -184,7 +165,7 @@ function circle( ax, ay, r ){
 		lastY = newY;
 	}
 }
-function levyDragon( ax, ay, bx, by ) {
+function levyDragon(ax, ay, bx, by ) {
 	if ( (Math.abs(ax-bx) > drawPrecision || Math.abs(ay-by) > drawPrecision)) {
 		var cx = ax - ( by - ay - bx + ax ) / 2;
 		var cy = ay + ( by - ay + bx - ax ) / 2;
@@ -257,12 +238,12 @@ function getGl(canvas){
 	return result;			
 }
 
-function createFrame(n){
-	// init FrameBuffers, associate with textures
+function createFrame(size){
+	// init frameBuffers, associated with textures
 	var texture = gl.createTexture();
 	gl.bindTexture(gl.TEXTURE_2D, texture);
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);		
-	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, n, n, 0, gl.RGBA, gl.FLOAT, null);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, size, size, 0, gl.RGBA, gl.FLOAT, null);
 	
 	var frameBuffer = gl.createFramebuffer();
 	gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
@@ -271,11 +252,9 @@ function createFrame(n){
 }
 
 function getShader(nodeId){
-	// shader creation
-	var shaderSourceNode = document.getElementById(nodeId);		
-	var shaderSource = shaderSourceNode.firstChild.textContent;				
+	var shaderSourceNode = document.getElementById(nodeId);	
 	var shader = gl.createShader(shaderSourceNode.type == "x-shader/x-vertex" ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER );
-	gl.shaderSource(shader, shaderSource);
+	gl.shaderSource(shader, shaderSourceNode.firstChild.textContent);
 	gl.compileShader(shader);
 	console.log(nodeId +" compile status = " + gl.getShaderParameter(shader, gl.COMPILE_STATUS));
 	return shader;
@@ -290,8 +269,8 @@ function getProgram(vertexShader, fragmentShader) {
 	return program;
 }
 
+// ~noop
 function createVertices(){
-	// vertices definition and binding
 	gl.enableVertexAttribArray(0);
 	gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
 	var vertices = [ -1., -1., 1., -1., 1., 1., -1., 1., -1., -1. ];
@@ -322,7 +301,6 @@ Also, make the dx value definable by a function of the position (ex what does a 
 
 /*
 // 512x512 sized levy dragon
-levyDragon(0.4 ,0.2, 0.8 , 0.6 );
 line( [.8, .6, .4, .2] );
 */
 /*
@@ -455,3 +433,12 @@ for ( var i = 120 ; i>0 ; i-- ) {
 }
 */
 
+//Performance utility
+/*
+function performanceTestShape() {
+	for (var i = 0 ; i < 2047 ; i++){
+		segmentArray.push([1.0 - i/2047 , 1.0 - i/2047, 1/2047, 1/2047]);
+	}
+	repaint();
+}
+*/
