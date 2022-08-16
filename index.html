@@ -1,83 +1,91 @@
-<html> 
-	<head>
-	</head>
-	<body onload="start();">
-		<button onclick="location.href=location.href;">Reset</button>
-		<button onclick="circleButton();">Circle</button>
-		<button onclick="squareButton();">Square</button>
-		<button onclick="levyButton();">Shuffled Levy Dragon</button></br>
-		<canvas id="canvasIntegral" style="cursor: pointer;" width="512" height="512">This animations requires WebGL</canvas></br>
-		<input id="console" type="text" value=".." style="width:512px;"></input>
-		<script type="text/javascript" src="contour.js"></script>
-		<script id="fragment-shader-hsltorgb" type="x-shader/x-fragment">
-			#ifdef GL_ES
-			precision highp float;
-			#endif
-			
-			uniform sampler2D u_hslSamp;
-			
-			void main(void)
-			{
-				
-				float h = mod(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).r / (12.0*6.28318531) , 1.0 ) ;
-				float s = 1.0;
-				float l = 0.5 + 0.5 * atan(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).g) / 1.57079633;
-								
-				float h1 = h * 6.0;
-				float c = s * ( 1.0 - abs( 2.0 * l - 1.0 ));
-				float x = c * ( 1.0 - abs( mod( h1 , 2.0 ) - 1.0 ));
-				float m = l - c / 2.0;
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body onload="start();">
+        <button onclick="location.reload();">Reset</button>
 
-				float r1 = 0.0;
-				float g1 = 0.0;
-				float b1 = 0.0;	
-				
-				if ( h1 >= 5.0 ) {
-					r1 = c ;
-					b1 = x ;
-				} else if ( h1 >= 4.0 ) {
-					r1 = x ;
-					b1 = c ;
-				} else if ( h1 >= 3.0 ) {
-					g1 = x ;
-					b1 = c ;
-				} else if ( h1 >= 2.0 ) {
-					g1 = c ;
-					b1 = x ;
-				} else if ( h1 >= 1.0 ) {
-					r1 = x ;
-					g1 = c ;
-				} else {
-					r1 = c ;
-					g1 = x ;
-				}
-				
-				gl_FragColor = vec4( r1 + m , g1 + m , b1 + m , 1.0 );
-			}
-		</script>
-		<script id="fragment-shader-calc" type="x-shader/x-fragment">
-			#ifdef GL_ES
-			precision highp float;
-			#endif
-			
-			uniform sampler2D u_calcSamp;
-			uniform vec2 u_a;
-			uniform vec2 u_dx;
-			
-			void main(void)
-			{
-				vec2 pos = gl_FragCoord.xy / 512.0;
-				vec2 prev = texture2D( u_calcSamp , pos ).xy;
-				vec2 delta = pos - u_a;
-				float denom = dot( delta , delta );
-				gl_FragColor = vec4( prev.x + ( delta.x * u_dx.y - delta.y * u_dx.x) / denom  , prev.y + dot( delta , u_dx ) / denom , 1.0 , 1.0 );
-			}
-		</script>
-		<script id="vertex-shader-identity" type="x-shader/x-vertex">
-			attribute vec2 a_pos;
-			void main() {
-				gl_Position = vec4(a_pos.x,a_pos.y,0.0,1.0);
-			}
-		</script>
-	</body>
+        <input type="checkbox" id="shuffle" checked><label for="shuffle">Shuffle</label>
+        <button onclick="circleButton();">Circle</button>
+        <button onclick="squareButton();">Square</button>
+        <button onclick="levyButton();">Levy Dragon</button>
+        <input id="precision" type="text" value="" style="width:96px; pointer-events:none;">
+        <button onclick="plusPrecision();">+</button>
+        <button onclick="minusPrecision();">-</button>
+        <br>
+
+        <canvas id="canvasIntegral" style="cursor: pointer;">This animations requires WebGL</canvas><br>
+        <input id="console" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none;">
+        <script type="text/javascript" src="contour.js"></script>
+        <script id="fragment-shader-hsltorgb" type="x-shader/x-fragment">
+            #ifdef GL_ES
+            precision highp float;
+            #endif
+
+            uniform sampler2D u_hslSamp;
+
+            void main(void)
+            {
+
+                float h = mod(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).r / (12.0*6.28318531) , 1.0 ) ;
+                float s = 1.0;
+                float l = 0.5 + 0.5 * atan(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).g) / 1.57079633;
+
+                float h1 = h * 6.0;
+                float c = s * ( 1.0 - abs( 2.0 * l - 1.0 ));
+                float x = c * ( 1.0 - abs( mod( h1 , 2.0 ) - 1.0 ));
+                float m = l - c / 2.0;
+
+                float r1 = 0.0;
+                float g1 = 0.0;
+                float b1 = 0.0;
+
+                if ( h1 >= 5.0 ) {
+                    r1 = c ;
+                    b1 = x ;
+                } else if ( h1 >= 4.0 ) {
+                    r1 = x ;
+                    b1 = c ;
+                } else if ( h1 >= 3.0 ) {
+                    g1 = x ;
+                    b1 = c ;
+                } else if ( h1 >= 2.0 ) {
+                    g1 = c ;
+                    b1 = x ;
+                } else if ( h1 >= 1.0 ) {
+                    r1 = x ;
+                    g1 = c ;
+                } else {
+                    r1 = c ;
+                    g1 = x ;
+                }
+
+                gl_FragColor = vec4( r1 + m , g1 + m , b1 + m , 1.0 );
+            }
+        </script>
+        <script id="fragment-shader-calc" type="x-shader/x-fragment">
+            #ifdef GL_ES
+            precision highp float;
+            #endif
+
+            uniform sampler2D u_calcSamp;
+            uniform vec2 u_z;
+            uniform vec2 u_dz;
+
+            void main(void)
+            {
+                vec2 a = gl_FragCoord.xy / 512.0;
+                vec2 prev = texture2D( u_calcSamp , a ).xy;
+                vec2 delta = a - u_z;
+                float denom = dot( delta , delta );
+                gl_FragColor = vec4( prev.x + ( delta.x * u_dz.y - delta.y * u_dz.x) / denom  , prev.y + dot( delta , u_dz ) / denom , 1.0 , 1.0 );
+            }
+        </script>
+        <script id="vertex-shader-identity" type="x-shader/x-vertex">
+            attribute vec2 a_pos;
+            void main() {
+                gl_Position = vec4(a_pos.x,a_pos.y,0.0,1.0);
+            }
+        </script>
+    </body>
 </html>
