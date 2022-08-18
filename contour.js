@@ -6,12 +6,10 @@ canvas.height = CANVAS_SIZE_PX;
 let pixelPrecision = 0;
 let drawPrecision = () => (2 ** pixelPrecision) / CANVAS_SIZE_PX;
 
-// Globals
-let repaint;                   // Needs to be called after adding segments to be drawn
-let segmentArray = [];         // Where the dz segments are stored
-let gl;                        // Bound to the canvas
+let repaint;                   // Global function. Needs to be called after adding segments to be drawn.
+let segmentArray = [];         // Where the dz segments are store.
+let gl;                        // Bound to the canvas.
 let needsToBeShuffled = false;
-let repaintCanvas;
 
 // Pipeline setup
 function start() {
@@ -24,7 +22,7 @@ function start() {
     const frame0 = createFrame(CANVAS_SIZE_PX);
     const frame1 = createFrame(CANVAS_SIZE_PX);
 
-    // Pipeline and loop definition
+    //// Pipeline and loop definition
     /*
         UI --(pushes)--> dz segments in segmentArray --(pops several)--> Integral part for each dz ---> hsl to rgb on canvas
                  |                                           |                        |                         |             
@@ -34,7 +32,7 @@ function start() {
                                                                   <-sync, with framerate information ------
 
         This loop stays active until there are no more segments
-        to be calculated. The sync calls to calculateSegment()
+        to be calculated. The synch calls to calculateSegment()
         are made to target a smooth repaint framerate, while
         calculating the most segments possible.
         repaint() will activate the loop, in a singleton manner.
@@ -51,70 +49,45 @@ function start() {
     const zVec2  = gl.getUniformLocation(calcProgram, "u_z");
     const dzVec2 = gl.getUniformLocation(calcProgram, "u_dz");
 
+
     // pipeline usage
     let lastFrameOutput = 1;
     let needToRepaint = true;
-
-    let calculateSegment = (currentPoint) => {
-        console.log("processPointAndUpdateValue");
+    function calculateSegment(currentPoint) {
         // read-write swapping
         let currentTexture, currentFrameBuffer;
-        if (lastFrameOutput === 1) {
-            currentTexture = frame1.texture;
+        if ( lastFrameOutput === 1 ) {
+             currentTexture = frame1.texture;
             currentFrameBuffer = frame0.frameBuffer;
-            lastFrameOutput = 0;
+            lastFrameOutput = 0 ;
         } else {
-            currentTexture = frame0.texture;
-            currentFrameBuffer = frame1.frameBuffer;
-            lastFrameOutput = 1;
+            currentTexture = frame0.texture ;
+            currentFrameBuffer = frame1.frameBuffer ; 
+            lastFrameOutput = 1 ;
         }
         gl.bindTexture(gl.TEXTURE_2D, currentTexture);
         gl.bindFramebuffer(gl.FRAMEBUFFER, currentFrameBuffer);
-
+        
         // bind segment, and draw
         gl.useProgram(calcProgram);
-        gl.uniform2f(zVec2, currentPoint[0], currentPoint[1]);
+        gl.uniform2f(zVec2 , currentPoint[0], currentPoint[1]);
         gl.uniform2f(dzVec2, currentPoint[2], currentPoint[3]);
-
+    
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
-        gl.flush();
+        gl.flush(); 
         needToRepaint = true;
-
     }
 
     let lastRepaintDate = Date.now();
     let lastRepaintTime = 250;
-    let smoothedLastRepaintTime = lastRepaintTime;
-    const REPAINT_TIME_SMOOTHING_FACTOR = 0.95;
-    repaintCanvas = () => {
+    function repaintCanvas() {
         gl.useProgram(hslToRgbProgram);
-        let currentTexture, currentFrameBuffer;
-        if ( lastFrameOutput === 1 ) {
-            currentTexture = frame1.texture;
-            currentFrameBuffer = frame0.frameBuffer;
-        } else {
-            currentTexture = frame0.texture ;
-            currentFrameBuffer = frame1.frameBuffer ;
-        }
-        gl.bindTexture(gl.TEXTURE_2D, currentTexture );
+        gl.bindTexture(gl.TEXTURE_2D, lastFrameOutput === 1 ? frame1.texture : frame0.texture );
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
-
         gl.flush();
-
-        gl.bindFramebuffer(gl.FRAMEBUFFER, currentFrameBuffer);
-        const pixels = new Float32Array(4);
-        gl.readPixels(mouseLastOffsetX, gl.drawingBufferHeight - mouseLastOffsetY + 1, 1, 1, gl.RGBA, gl.FLOAT, pixels);
-        const mouseValue = {re : pixels[0] / 2 / Math.PI, im : pixels[1] / 2 / Math.PI};
-        document.getElementById('aValue').value =
-            "Cursor  Re: " + fixedLengthDecimal(mouseValue.re, 2, 3) +
-                  "  Im: " + fixedLengthDecimal(mouseValue.im, 2, 3);
-
         const now = Date.now();
         lastRepaintTime = now - lastRepaintDate;
-        smoothedLastRepaintTime =
-            smoothedLastRepaintTime * REPAINT_TIME_SMOOTHING_FACTOR +
-            lastRepaintTime * (1 - REPAINT_TIME_SMOOTHING_FACTOR)
         lastRepaintDate = now ;
         needToRepaint = false;
         run();
@@ -126,14 +99,14 @@ function start() {
     const IDEAL_FRAME_TIME = 1000 / 25;
     const GPU_JITTER_SMOOTHING_FACTOR = 10;
     let running = false;
-    let run = () => {
-        running = true;
+    function run() {
 
         if(needsToBeShuffled && document.getElementById('shuffle').checked) {
             shuffle();
             needsToBeShuffled = false;
         }
 
+        running = true;
         numberOfCalcCycles = Math.min(
             segmentArray.length,
             Math.max(
@@ -141,7 +114,7 @@ function start() {
                 numberOfCalcCycles * ( 1 + ((IDEAL_FRAME_TIME - lastRepaintTime) / IDEAL_FRAME_TIME) / GPU_JITTER_SMOOTHING_FACTOR ) // adaptive
             )
         );
-        document.getElementById('console').value = "Last duration: " + Math.round(smoothedLastRepaintTime) + "ms. Adding " + Math.floor(numberOfCalcCycles) + " cycles between frames. Segments left: " + segmentArray.length + ".";
+        document.getElementById('console').value = "Last duration: " + lastRepaintTime + "ms. Adding " + Math.floor(numberOfCalcCycles) + " cycles between frames. Segments left: " + segmentArray.length + ".";
 
         for(let i = 0 ; i < numberOfCalcCycles && segmentArray.length > 0 ; i++) {
             calculateSegment(segmentArray.pop());
@@ -153,19 +126,19 @@ function start() {
         }
     }
 
-    repaint = () => {
+    repaint = function () {
         if (!running) {
             run();
         }
     }
 
-    // startup
-    run();
+    //// startup
+    repaint();
 }
 
 
 // shapes
-let line = (points) => {
+function line(points) {
     needsToBeShuffled = true;
     const ax = points[0];
     const ay = points[1];
@@ -181,13 +154,13 @@ let line = (points) => {
         segmentArray.unshift([ cx, cy, bx-ax, by-ay ]);
     }
 }
-let rect = (ax, ay, sx, sy) => {
+function rect(ax, ay, sx, sy) {
     line([ax   ,ay   ,ax+sx,   ay]);
     line([ax+sx,ay   ,ax+sx,ay+sy]);
     line([ax+sx,ay+sy,ax   ,ay+sy]);
     line([ax,   ay+sy,ax   ,ay   ]);
 }
-let circle = (ax, ay, r) => {
+function circle(ax, ay, r ) {
     const iMax = Math.ceil(2 * Math.PI * r / drawPrecision());
     let lastX = ax + r;
     let lastY = ay;
@@ -200,7 +173,8 @@ let circle = (ax, ay, r) => {
         lastY = newY;
     }
 }
-let levyDragon = (ax, ay, bx, by ) => {
+
+function levyDragon(ax, ay, bx, by ) {
     if ( (Math.abs(ax-bx) > drawPrecision()*2 || Math.abs(ay-by) > drawPrecision()*2)) {
         const cx = ax - ( by - ay - bx + ax ) / 2;
         const cy = ay + ( by - ay + bx - ax ) / 2;
@@ -210,7 +184,8 @@ let levyDragon = (ax, ay, bx, by ) => {
         line( [ax, ay, bx, by] );
     }
 }
-let shuffle = () => {
+
+function shuffle() {
     for(let j, x, i = segmentArray.length;
         i;
         j = Math.floor(Math.random() * i),
@@ -222,50 +197,40 @@ let shuffle = () => {
 
 
 // UI setup helpers
-let mouseLastOffsetX = 1;
-let mouseLastOffsetY = 1;
-let mouseLastOffsetClickX = -1;
-let mouseLastOffsetClickY = -1;
-let setupUI = (canvas) => {
-    canvas.onmousemove = (e) => {
+let mouseLastOffsetX = -1;
+let mouseLastOffsetY = -1;
+function setupUI(canvas){
+    canvas.onmousemove = function(e){
         if (e.which === 1){
-            if (mouseLastOffsetClickX !== -1) {
-                line([
-                    mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                    e.offsetX        / CANVAS_SIZE_PX, 1 - e.offsetY        / CANVAS_SIZE_PX
-                ]);
+            if (mouseLastOffsetX !== -1) {
+                line([mouseLastOffsetX / CANVAS_SIZE_PX, 1 - mouseLastOffsetY / CANVAS_SIZE_PX, 
+                      e.offsetX        / CANVAS_SIZE_PX, 1 - e.offsetY        / CANVAS_SIZE_PX]);
                 repaint();
-            }
-            mouseLastOffsetClickX = e.offsetX;
-            mouseLastOffsetClickY = e.offsetY;
+            }                    
+            mouseLastOffsetX = e.offsetX;
+            mouseLastOffsetY = e.offsetY;                
         } else {
-            mouseLastOffsetClickX = -1
-        }
-        mouseLastOffsetX = e.offsetX;
-        mouseLastOffsetY = e.offsetY;
-
-        if (segmentArray.length === 0) {
-            window.requestAnimationFrame(repaintCanvas);
+            mouseLastOffsetX = -1
         }
     };
 }
-let circleButton = () => {
+function circleButton(){
     circle(0.5,0.5,0.25);
     repaint();
 }
-let squareButton = () => {
+function squareButton(){
     rect(0.25,0.25,0.5,0.5);
     repaint();
 }
 const MIN_PRECISION_LEVY = -1;
-let levyButton = () => {
+function levyButton(){
     pixelPrecision = Math.max(pixelPrecision, MIN_PRECISION_LEVY);
     setPrecisionText();
     levyDragon(0.4 ,0.2, 0.8 , 0.6 );
     line( [.8, .6, .4, .2] );
     repaint();
 }
-let setPrecisionText = () => {
+function setPrecisionText(){
     let precisionText;
     if (pixelPrecision > 0) {
         precisionText = "" + 2 ** pixelPrecision;
@@ -277,28 +242,25 @@ let setPrecisionText = () => {
     document.getElementById('precision').value = "Precision: " + precisionText;
 }
 setPrecisionText();
-let plusPrecision = () => {
+function plusPrecision(){
     pixelPrecision++;
     setPrecisionText();
 }
 const MIN_PRECISION = -6;
-let minusPrecision = () => {
+function minusPrecision(){
     pixelPrecision--;
     pixelPrecision = Math.max(pixelPrecision, MIN_PRECISION);
     setPrecisionText();
-}
-let fixedLengthDecimal = (v, left, right) => {
-    return (v < 0 ? '-' : '+') + Math.abs(v).toFixed(right).padStart(left + right + 1, '0');
 }
 
 
 
 // GL setup helpers
-let getGl = (canvas) => {
+function getGl(canvas){
     // init WebGL with floating point operations
     let result;
     try {
-        result = canvas.getContext("webgl") || canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
+        result = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
     } catch(e) {
         console.log("Problem loading WebGL"); 
         console.log(e.toString()); 
@@ -308,7 +270,7 @@ let getGl = (canvas) => {
     return result;            
 }
 
-let createFrame = (size) => {
+function createFrame(size){
     // init frameBuffers, associated with textures
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -321,7 +283,7 @@ let createFrame = (size) => {
     return { texture:texture, frameBuffer:frameBuffer };
 }
 
-let getShader = (nodeId) => {
+function getShader(nodeId){
     const shaderSourceNode = document.getElementById(nodeId);
     const shader = gl.createShader(shaderSourceNode.type === "x-shader/x-vertex" ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER );
     gl.shaderSource(shader, shaderSourceNode.firstChild.textContent);
@@ -330,7 +292,7 @@ let getShader = (nodeId) => {
     return shader;
 }
 
-let getProgram = (vertexShader, fragmentShader) => {
+function getProgram(vertexShader, fragmentShader) {
     const program = gl.createProgram();
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
@@ -340,7 +302,7 @@ let getProgram = (vertexShader, fragmentShader) => {
 }
 
 // ~noop
-let createVertices = () => {
+function createVertices(){
     gl.enableVertexAttribArray(0);
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
     const vertices = [ -1., -1., 1., -1., 1., 1., -1., 1., -1., -1. ];
