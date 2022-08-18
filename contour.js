@@ -7,9 +7,9 @@ let pixelPrecision = 0;
 let drawPrecision = () => (2 ** pixelPrecision) / CANVAS_SIZE_PX;
 
 // Globals
-let repaint;                   // Needs to be called after adding segments to be drawn
-let segmentArray = [];         // Where the dz segments are stored
-let gl;                        // Bound to the canvas
+let repaint;                   // Needs to be called after adding segments to be drawn.
+let segmentArray = [];         // Where the dz segments are store.
+let gl;                        // Bound to the canvas.
 let needsToBeShuffled = false;
 let repaintCanvas;
 
@@ -226,24 +226,27 @@ let mouseLastOffsetX = 1;
 let mouseLastOffsetY = 1;
 let mouseLastOffsetClickX = -1;
 let mouseLastOffsetClickY = -1;
+let isMouseDown = false;
 let setupUI = (canvas) => {
+    canvas.onmouseup   = () => {isMouseDown = false;};
+    canvas.onmousedown = () => {isMouseDown = true; };
     canvas.onmousemove = (e) => {
-        if (e.which === 1){
+        if (isMouseDown) {
             if (mouseLastOffsetClickX !== -1) {
                 line([
                     mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                    e.offsetX        / CANVAS_SIZE_PX, 1 - e.offsetY        / CANVAS_SIZE_PX
+                    e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
                 ]);
                 repaint();
             }
             mouseLastOffsetClickX = e.offsetX;
             mouseLastOffsetClickY = e.offsetY;
         } else {
-            mouseLastOffsetClickX = -1
+            mouseLastOffsetClickX = -1;
         }
+
         mouseLastOffsetX = e.offsetX;
         mouseLastOffsetY = e.offsetY;
-
         if (segmentArray.length === 0) {
             window.requestAnimationFrame(repaintCanvas);
         }
