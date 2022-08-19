@@ -234,6 +234,7 @@ let setupUI = (canvas) => {
         document.getElementById('debug').value = "onmouseup!";};
     canvas.touchend    = canvas.onmouseup;
     canvas.onmousemove = (e) => {
+        e.preventDefault();
         if (isMouseDown) {
             if (mouseLastOffsetClickX !== -1) {
                 line([
