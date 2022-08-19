@@ -252,8 +252,8 @@ let setupUI = (canvas) => {
         if (segmentArray.length === 0) {
             window.requestAnimationFrame(repaintCanvas);
         }
-        canvas.ontouchmove = canvas.onmousemove;
     };
+    canvas.ontouchmove = canvas.onmousemove;
 }
 let circleButton = () => {
     circle(0.5,0.5,0.25);
