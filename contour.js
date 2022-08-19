@@ -242,7 +242,7 @@ let setupUI = (canvas) => {
             e.offsetY = touch.clientY-realTarget.getBoundingClientRect().y;
         }
 
-        if (isMouseDown) {
+        if (isMouseDown || e.touches) {
             if (mouseLastOffsetClickX !== -1) {
                 line([
                     mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
@@ -252,6 +252,7 @@ let setupUI = (canvas) => {
             }
             mouseLastOffsetClickX = e.offsetX;
             mouseLastOffsetClickY = e.offsetY;
+            document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
         } else {
             mouseLastOffsetClickX = -1;
         }
