@@ -56,7 +56,6 @@ function start() {
     let needToRepaint = true;
 
     let calculateSegment = (currentPoint) => {
-        console.log("processPointAndUpdateValue");
         // read-write swapping
         let currentTexture, currentFrameBuffer;
         if (lastFrameOutput === 1) {
@@ -228,9 +227,11 @@ let mouseLastOffsetClickX = -1;
 let mouseLastOffsetClickY = -1;
 let isMouseDown = false;
 let setupUI = (canvas) => {
-    canvas.onmousedown = () => {isMouseDown = true; };
+    canvas.onmousedown = () => {isMouseDown = true;
+        document.getElementById('debug').value = "onmousedown!";};
     canvas.touchstart  = canvas.onmousedown;
-    canvas.onmouseup   = () => {isMouseDown = false;};
+    canvas.onmouseup   = () => {isMouseDown = false;
+        document.getElementById('debug').value = "onmouseup!";};
     canvas.touchend    = canvas.onmouseup;
     canvas.onmousemove = (e) => {
         if (isMouseDown) {
@@ -252,6 +253,8 @@ let setupUI = (canvas) => {
         if (segmentArray.length === 0) {
             window.requestAnimationFrame(repaintCanvas);
         }
+
+        document.getElementById('debug').value = "onmousemove!";
     };
     canvas.ontouchmove = canvas.onmousemove;
 }
@@ -332,7 +335,7 @@ let getShader = (nodeId) => {
     const shader = gl.createShader(shaderSourceNode.type === "x-shader/x-vertex" ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER );
     gl.shaderSource(shader, shaderSourceNode.firstChild.textContent);
     gl.compileShader(shader);
-    console.log(nodeId +" compile status = " + gl.getShaderParameter(shader, gl.COMPILE_STATUS));
+    console.log(nodeId +" compile status: " + gl.getShaderParameter(shader, gl.COMPILE_STATUS));
     return shader;
 }
 
@@ -341,7 +344,7 @@ let getProgram = (vertexShader, fragmentShader) => {
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
-    console.log("Program link status = " + gl.getProgramParameter(program, gl.LINK_STATUS));
+    console.log("Program link status: " + gl.getProgramParameter(program, gl.LINK_STATUS));
     return program;
 }
 
