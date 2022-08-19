@@ -228,8 +228,10 @@ let mouseLastOffsetClickX = -1;
 let mouseLastOffsetClickY = -1;
 let isMouseDown = false;
 let setupUI = (canvas) => {
-    canvas.onmouseup   = () => {isMouseDown = false;};
     canvas.onmousedown = () => {isMouseDown = true; };
+    canvas.touchstart  = canvas.onmousedown;
+    canvas.onmouseup   = () => {isMouseDown = false;};
+    canvas.touchend    = canvas.onmouseup;
     canvas.onmousemove = (e) => {
         if (isMouseDown) {
             if (mouseLastOffsetClickX !== -1) {
@@ -250,6 +252,7 @@ let setupUI = (canvas) => {
         if (segmentArray.length === 0) {
             window.requestAnimationFrame(repaintCanvas);
         }
+        canvas.ontouchmove = canvas.onmousemove;
     };
 }
 let circleButton = () => {

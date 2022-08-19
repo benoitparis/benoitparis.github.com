@@ -33,7 +33,7 @@
                 float s = 0.8;
                 float l = 0.5 + 0.5 * atan(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).g) / 1.57079633;
 
-                float h1 = h * 6.0;
+                float h1 = h * 6.0; // cycle colors every 12 times
                 float c = s * ( 1.0 - abs( 2.0 * l - 1.0 ));
                 float x = c * ( 1.0 - abs( mod( h1 , 2.0 ) - 1.0 ));
                 float m = l - c / 2.0;
