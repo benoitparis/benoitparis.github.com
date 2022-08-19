@@ -235,6 +235,13 @@ let setupUI = (canvas) => {
     canvas.touchend    = canvas.onmouseup;
     canvas.onmousemove = (e) => {
         e.preventDefault();
+        if (e.touches) {
+            var touch = e.touches[0] || e.changedTouches[0];
+            var realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+            e.offsetX = touch.clientX-realTarget.getBoundingClientRect().x;
+            e.offsetY = touch.clientY-realTarget.getBoundingClientRect().y;
+        }
+
         if (isMouseDown) {
             if (mouseLastOffsetClickX !== -1) {
                 line([
@@ -255,7 +262,7 @@ let setupUI = (canvas) => {
             window.requestAnimationFrame(repaintCanvas);
         }
 
-        document.getElementById('debug').value = "onmousemove!";
+        document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
     };
     canvas.ontouchmove = canvas.onmousemove;
 }
