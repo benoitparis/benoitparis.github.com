@@ -255,6 +255,7 @@ let setupUI = (canvas) => {
             document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
         } else {
             mouseLastOffsetClickX = -1;
+            document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
         }
 
         mouseLastOffsetX = e.offsetX;
@@ -263,7 +264,6 @@ let setupUI = (canvas) => {
             window.requestAnimationFrame(repaintCanvas);
         }
 
-        document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
     };
     canvas.ontouchmove = canvas.onmousemove;
 }
