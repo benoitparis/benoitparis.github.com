@@ -10,6 +10,9 @@ params:
   enable_math: true
   enable_site_search: true
 
+publishDir:
+  docs
+
 outputs: 
   home:
     - HTML
