@@ -3,14 +3,16 @@ title: 'About'
 weight: 40
 ---
 
-TODO:
+This is a repository where I try not to bore out the reader.
 
-* Text intro
-* Contact me for Flink, ML, data size problems
-* Contact info
-* CV
+Independent contractor in Paris. Not against remote gigs.
 
-I like to build visual explanations or illustrations for complex things, to provide me and others with inspiring insights maybe
-  complex data (explicable.ai)
-  math ()
-  etc
+Interests:
+
+* Explainable machine learning models
+* Distributed Data Streaming
+* Coding hopefully interesting demos in esoteric languages
+* Open Data
+
+Contact info: Either pro@benoit.paris or perso@benoit.paris, depending on what you want to talk about.
+

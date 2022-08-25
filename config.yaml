@@ -41,13 +41,20 @@ menu:
     title: Posts
     url: /Posts/
     weight: -100
-  - identifier: LinkedIn
-    name: LinkedIn
-    url: https://www.linkedin.com/in/benoitparis/
-  - identifier: Github
-    name: Github
-    url: https://github.com/benoitparis
   - identifier: About
     name: About
     title: About
     url: /about/
+    weight: -50
+  - identifier: LinkedIn
+    name: LinkedIn
+    url: https://www.linkedin.com/in/benoitparis/
+    weight: 10
+  - identifier: Github
+    name: Github
+    url: https://github.com/benoitparis
+    weight: 50
+  - identifier: CV
+    name: CV
+    url: https://benoit.paris/CV_Benoit_Paris.pdf
+    weight: 100
