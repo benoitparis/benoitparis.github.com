@@ -1,0 +1,760 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang='en'><head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href='/favicon.ico' type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Winding numbers using a Cauchy integral formula with WebGL - benoit.paris</title>
+
+    
+
+    
+
+    
+
+    
+        <meta property="og:title" content="Winding numbers using a Cauchy integral formula with WebGL" />
+<meta property="og:description" content="This what the winding number $n(\gamma ,a)$ of curve $\gamma$ around point $a$, expressed as special case of Cauchy&rsquo;s integral formula looks like on potentially-non-closed loops, with complex numbers mapped to a hue-luminance space.
+$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
+Demo: ResetShuffleCircleSquareLevy Dragon&#43;-This animation requires WebGL
+note comme quoi sur mobile ça marche pas because on utilise des textures pour stoquer les valeurs et que celles ci sont 4 bits sur mobile, 16 bits sur desktop https://webglfundamentals." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/winding-cauchy-integral/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-24T15:53:54+02:00" />
+<meta property="article:modified_time" content="2022-08-24T15:53:54+02:00" />
+
+
+    
+
+    
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Winding numbers using a Cauchy integral formula with WebGL"/>
+<meta name="twitter:description" content="This what the winding number $n(\gamma ,a)$ of curve $\gamma$ around point $a$, expressed as special case of Cauchy&rsquo;s integral formula looks like on potentially-non-closed loops, with complex numbers mapped to a hue-luminance space.
+$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
+Demo: ResetShuffleCircleSquareLevy Dragon&#43;-This animation requires WebGL
+note comme quoi sur mobile ça marche pas because on utilise des textures pour stoquer les valeurs et que celles ci sont 4 bits sur mobile, 16 bits sur desktop https://webglfundamentals."/>
+
+    <link rel="stylesheet" href="/style.min.5297c96c59a52afaa5bcda4a6cedf3813081f64025c209b25b2ee6d0c8f74d462b625ad3404a92a14d7a51b4ec0a420337ae70f426fa4bce2d5f7459a3ca7274.css" integrity="sha512-UpfJbFmlKvqlvNpKbO3zgTCB9kAlwgmyWy7m0Mj3TUYrYlrTQEqSoU16UbTsCkIDN65w9Cb6S84tX3RZo8pydA==">
+
+
+
+
+
+    
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+            document.documentElement.setAttribute("data-theme", "light");
+        }
+    </script>
+<script defer src="/js/header.7a2a109ec3782c57bad0332b662f8a5f41765505936b69868eb8bd5241de9daf23c388e82ca1831f6d09935013dcb9f71bfa7face3975880c1076028b7b0a6e1.js" integrity="sha512-eioQnsN4LFe60DMrZi&#43;KX0F2VQWTa2mGjri9UkHena8jw4joLKGDH20Jk1AT3Ln3G/p/rOOXWIDBB2Aot7Cm4Q=="></script>
+
+
+
+    <script defer src="/js/zooming.684b5d075bf94d0adfa21a7e7eb9acec1ddfb2e7b47d6657981617f0db0cf50949f1172801595afa3051f51b28d67f6a2d0c41be677b59b564307d9dbe4a4fd2.js" integrity="sha512-aEtdB1v5TQrfohp&#43;frms7B3fsue0fWZXmBYX8NsM9QlJ8RcoAVla&#43;jBR9Rso1n9qLQxBvmd7WbVkMH2dvkpP0g=="></script>
+
+
+
+
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer src="/js/math.d7efde37b2eb8879651e1f4489bcd4d8203b8c2bf8ca12c9e1b8cd11bfd6395b172f4999fff43ce0d047889a2bdb71ee74aebbae5327590192d1144e790fcd7b.js" integrity="sha512-1&#43;/eN7LriHllHh9EibzU2CA7jCv4yhLJ4bjNEb/WOVsXL0mZ//Q84NBHiJor23HudK67rlMnWQGS0RROeQ/New=="></script>
+
+
+
+
+
+
+    
+    
+    
+    <script defer src="/js/search-en.677e05c714f837051483647d736c45051126c22a2696ca5f981b59da962d48962f3ea71150f559ba84884fd1aadf1c7aadce55bb31a3e5b75c0f173b763c109a.js" integrity="sha512-Z34FxxT4NwUUg2R9c2xFBREmwiomlspfmBtZ2pYtSJYvPqcRUPVZuoSIT9Gq3xx6rc5VuzGj5bdcDxc7djwQmg=="></script>
+
+
+
+
+</head><body>
+        <main><header>
+    <div class="brand">
+        <div id="sidebar_btn">
+            <svg id="menu_icon" width="26px" height="26px" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></svg>
+        </div>
+
+        <div>
+            <a href="/">benoit.paris</a>
+        </div>
+    </div>
+
+    <div class="toolbox">
+        <div id="theme_tool">
+            <svg id="dark_mode_btn" class="hidden toolbox-btn" width="18px" height="18px" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></svg>
+            <svg id="light_mode_btn" class="hidden toolbox-btn" width="18px" height="18px" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></svg>
+        </div>
+
+        
+            <div id="search_tool">
+                <svg id="search_btn" class="toolbox-btn" width="18px" height="18px" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></svg><div id="search_menu_wrapper" class="hidden">
+    <div id="search_menu">
+        <div id="search_menu_toolbar">
+            <div id="search_menu_input_wrapper">
+                <input id="search_menu_input" type="text" placeholder='Search Posts'>
+            </div>
+            <div id="search_menu_close_btn">
+                <svg width="18px" height="18px" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></svg>
+            </div>
+        </div>
+        <div id="search_menu_results">
+        </div>
+    </div>
+</div>
+</div>
+        
+
+        
+            <div id="translation_tool" class="dropdown-wrapper pure-menu pure-menu-horizontal toolbox-btn">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                        <div class="dropdown-btn pure-menu-link">
+                            <svg width="18px" height="18px" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></svg>
+                            <span class="dropdown-desc">English</span>
+                        </div>
+                        <ul class="pure-menu-children">
+                            
+                            <li class="pure-menu-item">
+                                <a href="http://example.org/" class="pure-menu-link">English</a>
+                            </li>
+                            
+                            <li class="pure-menu-item">
+                                <a href="http://example.org/fr/" class="pure-menu-link">Français</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        
+    </div>
+</header>
+<nav id="navbar" class="pure-menu"><ul class="pure-menu-list"><li class="navbar-item pure-menu-item insection">
+                    
+                        <a href="/posts/" class="pure-menu-link">Posts</a>
+                    
+                </li><li class="navbar-item pure-menu-item ">
+                    
+                        <a href="/about/" class="pure-menu-link">About</a>
+                    
+                </li><li class="navbar-item pure-menu-item ">
+                    
+                        <a href="https://github.com/benoitparis" class="pure-menu-link">Github</a>
+                    
+                </li><li class="navbar-item pure-menu-item ">
+                    
+                        <a href="https://www.linkedin.com/in/benoitparis/" class="pure-menu-link">LinkedIn</a>
+                    
+                </li></ul>
+</nav>
+<div id="sidebar_canvas_overlay" class="hidden"></div>
+<div id="sidebar" class="close">
+    <ul><li>
+                    <a href="/posts/">Posts</a>
+                </li><li>
+                    <a href="/about/">About</a>
+                </li><li>
+                    <a href="https://github.com/benoitparis">Github</a>
+                </li><li>
+                    <a href="https://www.linkedin.com/in/benoitparis/">LinkedIn</a>
+                </li></ul>
+</div><div id="content" class="content-margin">
+                
+    
+    <div class="collapsible-menu-wrapper"><div class="collapsible-menu-type"><span>Table of contents</span></div><div class="collapsible-menu">
+        
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#demo">Demo:</a></li>
+    <li><a href="#blah-2">Blah 2</a></li>
+    <li><a href="#blah-3">Blah 3</a></li>
+  </ul>
+</nav>
+        
+    </div></div>
+
+
+
+    <div class="content-margin">
+
+<article class="line-numbers">
+    
+    
+    <p>This what the <a href="https://en.wikipedia.org/wiki/Winding_number">winding number</a> $n(\gamma ,a)$ of curve $\gamma$ around point $a$, expressed as special case of <a href="https://en.wikipedia.org/wiki/Cauchy%27s_integral_formula">Cauchy&rsquo;s integral formula</a> looks like on potentially-non-closed loops, with complex numbers mapped to a hue-luminance space.</p>
+<p>$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$</p>
+<h2 id="demo">Demo:</h2>
+<div id="root-contour" style="text-align: center;">
+    <button onclick="location.reload();">Reset</button>
+    <input type="checkbox" id="shuffle" checked><label for="shuffle">Shuffle</label>
+    <button onclick="circleButton();">Circle</button>
+    <button onclick="squareButton();">Square</button>
+    <button onclick="levyButton();">Levy Dragon</button>
+    <input id="precision" type="text" value="" style="width:96px; pointer-events:none;">
+    <button onclick="plusPrecision();">+</button>
+    <button onclick="minusPrecision();">-</button>
+    <br>
+
+    <canvas id="canvasIntegral" style="cursor: pointer; touch-action: none;">This animation requires WebGL</canvas><br>
+    <input id="aValue" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none; font-family: monospace"><br>
+    <input id="console" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none;"><br>
+    <input id="debug" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none;"><br>
+
+
+    <script id="fragment-shader-hsltorgb" type="x-shader/x-fragment">
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+
+        uniform sampler2D u_hslSamp;
+
+        void main(void)
+        {
+
+            float h = mod(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).r / (12.0*6.28318531) , 1.0 ) ;
+            float s = 0.8;
+            float l = 0.5 + 0.5 * atan(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).g) / 1.57079633;
+
+            float h1 = h * 6.0; // cycle colors every 12 times
+            float c = s * ( 1.0 - abs( 2.0 * l - 1.0 ));
+            float x = c * ( 1.0 - abs( mod( h1 , 2.0 ) - 1.0 ));
+            float m = l - c / 2.0;
+
+            float r1 = 0.0;
+            float g1 = 0.0;
+            float b1 = 0.0;
+
+            if ( h1 >= 5.0 ) {
+                r1 = c ;
+                b1 = x ;
+            } else if ( h1 >= 4.0 ) {
+                r1 = x ;
+                b1 = c ;
+            } else if ( h1 >= 3.0 ) {
+                g1 = x ;
+                b1 = c ;
+            } else if ( h1 >= 2.0 ) {
+                g1 = c ;
+                b1 = x ;
+            } else if ( h1 >= 1.0 ) {
+                r1 = x ;
+                g1 = c ;
+            } else {
+                r1 = c ;
+                g1 = x ;
+            }
+
+            gl_FragColor = vec4( r1 + m , g1 + m , b1 + m , 1.0 );
+        }
+    </script>
+    <script id="fragment-shader-calc" type="x-shader/x-fragment">
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+
+        uniform sampler2D u_calcSamp;
+        uniform vec2 u_z;
+        uniform vec2 u_dz;
+
+        void main(void)
+        {
+            vec2 a = gl_FragCoord.xy / 512.0;
+            vec2 prev = texture2D( u_calcSamp , a ).xy;
+            vec2 delta = a - u_z;
+            float denom = dot( delta , delta );
+            gl_FragColor = vec4( prev.x + ( delta.x * u_dz.y - delta.y * u_dz.x) / denom  , prev.y + dot( delta , u_dz ) / denom , 1.0 , 1.0 );
+        }
+    </script>
+    <script id="vertex-shader-identity" type="x-shader/x-vertex">
+        attribute vec2 a_pos;
+        void main() {
+            gl_Position = vec4(a_pos.x, a_pos.y, 0.0, 1.0);
+        }
+    </script>
+
+    <script type="text/javascript">
+        
+        const CANVAS_SIZE_PX = 512;
+        let canvas = document.getElementById('canvasIntegral');
+        canvas.width = CANVAS_SIZE_PX;
+        canvas.height = CANVAS_SIZE_PX;
+        let pixelPrecision = 0;
+        let drawPrecision = () => (2 ** pixelPrecision) / CANVAS_SIZE_PX;
+
+        
+        let repaint;                   
+        let segmentArray = [];         
+        let gl;                        
+        let needsToBeShuffled = false;
+        let repaintCanvas;
+
+        
+        function start() {
+
+            const canvas = document.getElementById("canvasIntegral");
+            setupUI(canvas);
+            gl = getGl(canvas);
+
+            
+            const frame0 = createFrame(CANVAS_SIZE_PX);
+            const frame1 = createFrame(CANVAS_SIZE_PX);
+
+            
+            
+
+            
+            const identityVertexShader = getShader("vertex-shader-identity");
+            const hslToRgbShader = getShader("fragment-shader-hsltorgb");
+            const calcShader     = getShader("fragment-shader-calc");
+            const hslToRgbProgram = getProgram(identityVertexShader, hslToRgbShader);
+            const calcProgram     = getProgram(identityVertexShader, calcShader);
+            createVertices();
+
+            
+            const zVec2  = gl.getUniformLocation(calcProgram, "u_z");
+            const dzVec2 = gl.getUniformLocation(calcProgram, "u_dz");
+
+            
+            let lastFrameOutput = 1;
+            let needToRepaint = true;
+
+            let calculateSegment = (currentPoint) => {
+                
+                let currentTexture, currentFrameBuffer;
+                if (lastFrameOutput === 1) {
+                    currentTexture = frame1.texture;
+                    currentFrameBuffer = frame0.frameBuffer;
+                    lastFrameOutput = 0;
+                } else {
+                    currentTexture = frame0.texture;
+                    currentFrameBuffer = frame1.frameBuffer;
+                    lastFrameOutput = 1;
+                }
+                gl.bindTexture(gl.TEXTURE_2D, currentTexture);
+                gl.bindFramebuffer(gl.FRAMEBUFFER, currentFrameBuffer);
+
+                
+                gl.useProgram(calcProgram);
+                gl.uniform2f(zVec2, currentPoint[0], currentPoint[1]);
+                gl.uniform2f(dzVec2, currentPoint[2], currentPoint[3]);
+
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
+                gl.flush();
+                needToRepaint = true;
+
+            }
+
+            let lastRepaintDate = Date.now();
+            let lastRepaintTime = 250;
+            let smoothedLastRepaintTime = lastRepaintTime;
+            const REPAINT_TIME_SMOOTHING_FACTOR = 0.95;
+            repaintCanvas = () => {
+                gl.useProgram(hslToRgbProgram);
+                let currentTexture, currentFrameBuffer;
+                if ( lastFrameOutput === 1 ) {
+                    currentTexture = frame1.texture;
+                    currentFrameBuffer = frame0.frameBuffer;
+                } else {
+                    currentTexture = frame0.texture ;
+                    currentFrameBuffer = frame1.frameBuffer ;
+                }
+                gl.bindTexture(gl.TEXTURE_2D, currentTexture );
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
+
+                gl.flush();
+
+                gl.bindFramebuffer(gl.FRAMEBUFFER, currentFrameBuffer);
+                const pixels = new Float32Array(4);
+                gl.readPixels(mouseLastOffsetX, gl.drawingBufferHeight - mouseLastOffsetY + 1, 1, 1, gl.RGBA, gl.FLOAT, pixels);
+                const mouseValue = {re : pixels[0] / 2 / Math.PI, im : pixels[1] / 2 / Math.PI};
+                document.getElementById('aValue').value =
+                    "Cursor  Re: " + fixedLengthDecimal(mouseValue.re, 2, 3) +
+                    "  Im: " + fixedLengthDecimal(mouseValue.im, 2, 3);
+
+                const now = Date.now();
+                lastRepaintTime = now - lastRepaintDate;
+                smoothedLastRepaintTime =
+                    smoothedLastRepaintTime * REPAINT_TIME_SMOOTHING_FACTOR +
+                    lastRepaintTime * (1 - REPAINT_TIME_SMOOTHING_FACTOR)
+                lastRepaintDate = now ;
+                needToRepaint = false;
+                run();
+            }
+
+            let numberOfCalcCycles = 100;
+            const MIN_CALC_CYCLES = 5;
+            
+            const IDEAL_FRAME_TIME = 1000 / 25;
+            const GPU_JITTER_SMOOTHING_FACTOR = 10;
+            let running = false;
+            let run = () => {
+                running = true;
+
+                if(needsToBeShuffled && document.getElementById('shuffle').checked) {
+                    shuffle();
+                    needsToBeShuffled = false;
+                }
+
+                numberOfCalcCycles = Math.min(
+                    segmentArray.length,
+                    Math.max(
+                        MIN_CALC_CYCLES,
+                        numberOfCalcCycles * ( 1 + ((IDEAL_FRAME_TIME - lastRepaintTime) / IDEAL_FRAME_TIME) / GPU_JITTER_SMOOTHING_FACTOR ) 
+                    )
+                );
+                document.getElementById('console').value = "Last duration: " + Math.round(smoothedLastRepaintTime) + "ms. Adding " + Math.floor(numberOfCalcCycles) + " cycles between frames. Segments left: " + segmentArray.length + ".";
+
+                for(let i = 0 ; i < numberOfCalcCycles && segmentArray.length > 0 ; i++) {
+                    calculateSegment(segmentArray.pop());
+                }
+                if (needToRepaint) {
+                    window.requestAnimationFrame(repaintCanvas);
+                } else {
+                    running = false;
+                }
+            }
+
+            repaint = () => {
+                if (!running) {
+                    run();
+                }
+            }
+
+            
+            run();
+        }
+
+
+        
+        let line = (points) => {
+            needsToBeShuffled = true;
+            const ax = points[0];
+            const ay = points[1];
+            const bx = points[2];
+            const by = points[3];
+
+            const cx = (ax+bx)/2.0;
+            const cy = (ay+by)/2.0;
+            if (Math.abs(ax-bx) > drawPrecision()*2 || Math.abs(ay-by) > drawPrecision()*2 ) {
+                line([ax, ay, cx, cy        ]);
+                line([        cx, cy, bx, by]);
+            } else {
+                segmentArray.unshift([ cx, cy, bx-ax, by-ay ]);
+            }
+        }
+        let rect = (ax, ay, sx, sy) => {
+            line([ax   ,ay   ,ax+sx,   ay]);
+            line([ax+sx,ay   ,ax+sx,ay+sy]);
+            line([ax+sx,ay+sy,ax   ,ay+sy]);
+            line([ax,   ay+sy,ax   ,ay   ]);
+        }
+        let circle = (ax, ay, r) => {
+            const iMax = Math.ceil(2 * Math.PI * r / drawPrecision());
+            let lastX = ax + r;
+            let lastY = ay;
+            for (let i = 0; i<=iMax; i++) {
+                const theta = i / iMax * 2 * Math.PI;
+                const newX = ax + r * Math.cos(theta);
+                const newY = ay + r * Math.sin(theta);
+                line([lastX,lastY,newX,newY]);
+                lastX = newX;
+                lastY = newY;
+            }
+        }
+        let levyDragon = (ax, ay, bx, by ) => {
+            if ( (Math.abs(ax-bx) > drawPrecision()*2 || Math.abs(ay-by) > drawPrecision()*2)) {
+                const cx = ax - ( by - ay - bx + ax ) / 2;
+                const cy = ay + ( by - ay + bx - ax ) / 2;
+                levyDragon( ax, ay, cx, cy         );
+                levyDragon(         cx, cy, bx, by );
+            } else {
+                line( [ax, ay, bx, by] );
+            }
+        }
+        let shuffle = () => {
+            for(let j, x, i = segmentArray.length;
+                i;
+                j = Math.floor(Math.random() * i),
+                    x = segmentArray[--i],
+                    segmentArray[i] = segmentArray[j],
+                    segmentArray[j] = x
+            ) {}
+        }
+
+
+        
+        let mouseLastOffsetX = 1;
+        let mouseLastOffsetY = 1;
+        let mouseLastOffsetClickX = -1;
+        let mouseLastOffsetClickY = -1;
+        let isMouseDown = false;
+        let setupUI = (canvas) => {
+            canvas.onmousedown = () => {isMouseDown = true;
+                document.getElementById('debug').value = "onmousedown!";};
+            canvas.touchstart  = canvas.onmousedown;
+            canvas.onmouseup   = () => {isMouseDown = false;
+                document.getElementById('debug').value = "onmouseup!";};
+            canvas.touchend    = canvas.onmouseup;
+            canvas.onmousemove = (e) => {
+                e.preventDefault();
+                if (e.touches) {
+                    var touch = e.touches[0] || e.changedTouches[0];
+                    var realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                    e.offsetX = touch.clientX-realTarget.getBoundingClientRect().x;
+                    e.offsetY = touch.clientY-realTarget.getBoundingClientRect().y;
+                }
+
+                if (isMouseDown || e.touches) {
+                    if (mouseLastOffsetClickX !== -1) {
+                        line([
+                            mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                            e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                        ]);
+                        repaint();
+                    }
+                    mouseLastOffsetClickX = e.offsetX;
+                    mouseLastOffsetClickY = e.offsetY;
+                    document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
+                } else {
+                    mouseLastOffsetClickX = -1;
+                    document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
+                }
+
+                mouseLastOffsetX = e.offsetX;
+                mouseLastOffsetY = e.offsetY;
+                if (segmentArray.length === 0) {
+                    window.requestAnimationFrame(repaintCanvas);
+                }
+
+            };
+            canvas.ontouchmove = canvas.onmousemove;
+        }
+        let circleButton = () => {
+            circle(0.5,0.5,0.25);
+            repaint();
+        }
+        let squareButton = () => {
+            rect(0.25,0.25,0.5,0.5);
+            repaint();
+        }
+        const MIN_PRECISION_LEVY = -1;
+        let levyButton = () => {
+            pixelPrecision = Math.max(pixelPrecision, MIN_PRECISION_LEVY);
+            setPrecisionText();
+            levyDragon(0.4 ,0.2, 0.8 , 0.6 );
+            line( [.8, .6, .4, .2] );
+            repaint();
+        }
+        let setPrecisionText = () => {
+            let precisionText;
+            if (pixelPrecision > 0) {
+                precisionText = "" + 2 ** pixelPrecision;
+            } else if (pixelPrecision === 0) {
+                precisionText = "1";
+            } else {
+                precisionText = "1/" + 2 ** (-pixelPrecision);
+            }
+            document.getElementById('precision').value = "Precision: " + precisionText;
+        }
+        setPrecisionText();
+        let plusPrecision = () => {
+            pixelPrecision++;
+            setPrecisionText();
+        }
+        const MIN_PRECISION = -6;
+        let minusPrecision = () => {
+            pixelPrecision--;
+            pixelPrecision = Math.max(pixelPrecision, MIN_PRECISION);
+            setPrecisionText();
+        }
+        let fixedLengthDecimal = (v, left, right) => {
+            return (v < 0 ? '-' : '+') + Math.abs(v).toFixed(right).padStart(left + right + 1, '0');
+        }
+
+
+
+        
+        let getGl = (canvas) => {
+            
+            let result;
+            try {
+                result = canvas.getContext("webgl") || canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
+            } catch(e) {
+                console.log("Problem loading WebGL");
+                console.log(e.toString());
+            }
+            result.getExtension("OES_texture_float");
+            result.getExtension("OES_texture_float_linear");
+            return result;
+        }
+
+        let createFrame = (size) => {
+            
+            const texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, size, size, 0, gl.RGBA, gl.FLOAT, null);
+
+            const frameBuffer = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+            return { texture:texture, frameBuffer:frameBuffer };
+        }
+
+        let getShader = (nodeId) => {
+            const shaderSourceNode = document.getElementById(nodeId);
+            const shader = gl.createShader(shaderSourceNode.type === "x-shader/x-vertex" ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER );
+            gl.shaderSource(shader, shaderSourceNode.firstChild.textContent);
+            gl.compileShader(shader);
+            console.log(nodeId +" compile status: " + gl.getShaderParameter(shader, gl.COMPILE_STATUS));
+            return shader;
+        }
+
+        let getProgram = (vertexShader, fragmentShader) => {
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            console.log("Program link status: " + gl.getProgramParameter(program, gl.LINK_STATUS));
+            return program;
+        }
+
+        
+        let createVertices = () => {
+            gl.enableVertexAttribArray(0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+            const vertices = [ -1., -1., 1., -1., 1., 1., -1., 1., -1., -1. ];
+            gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        }
+
+
+        
+
+        
+        
+        
+
+
+
+        
+
+
+
+        
+        
+
+
+
+        
+
+
+
+
+        
+
+
+        
+
+
+        
+
+
+        
+
+
+
+        
+        
+        
+        
+        
+        
+        
+
+
+
+        
+
+
+
+        
+
+
+        start();
+    </script>
+
+    <script type="text/javascript">
+    </script>
+</div>
+
+<p>note comme quoi sur mobile ça marche pas because on utilise des textures pour stoquer les valeurs
+et que celles ci sont 4 bits sur mobile, 16 bits sur desktop
+<a href="https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats">https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats</a></p>
+<p>bien expliciter que a c&rsquo;est chaque pixel,
+qu&rsquo;on peut hover pour avoir la valeur
+qu&rsquo;on peut drag pour faire une ligne et que cette ligne c&rsquo;est gamma, avec z la position au moment de drag et dz un micro segment qu&rsquo;on peut spécifier avec la précision, et que c&rsquo;est une somme, hein, on fait pas les choses analytiquement</p>
+<p>donner un lien vers le nouveau repo que tu va utiliser</p>
+<p>Calculating the Winding number with Cauchy With WebGL</p>
+<!-- raw HTML omitted -->
+<p>a line integral cauchy formula</p>
+<p>Lines compose: closing a line on itself can be done randomly, or at a later time
+Partir de la formule et voir les symétries</p>
+<p>There&rsquo;s a multitude of ways to put things on the real plane: like a multitude of ways to reach point A from B</p>
+<p>Closed forms which share a border going on the other direction can form a bigger structure
+corrolary: you can split a bigger closed loop into 2, and conserve the realness</p>
+<p>explain a bit the buttons</p>
+<p>Story time!</p>
+<p>n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz</p>
+<p>In prepa schools, in proving Cauchy’s Integral Formula[wiki link], there&rsquo;s this winding number,
+which I always found remarquable: out of seemingly continuous operators outputs a discreet number!
+and it gives just the right amount of loops the curve goes around
+it always outputs an integer on a closed loop, but what if the loop is not closed
+also, complex numbers are two dimensionalm but we can find a space to display that
+we need to do large summation: we have a 2 dimensional here 500x500, and we may want loops that are describe by about 1000 pixels in that space
+so that&rsquo;s 250M divisions to do (we consider that summation and substracting are free compared to dividing). other than constant propagation, we did not try to use other mathematical tricks and just brute-forced the problem
+So we need a GPU. (disclaimer alt: I did it first on a CPU and it was slow)
+Defining a color space
+we want real to be different from each other, in kind, and be clear from other numbers that have an imaginary part
+so let&rsquo;s assign hue to real part, and luminance for im part (black for neg, white for pos)</p>
+<p>EN EN EN</p>
+<p>nkfdskjfdshkfdsl</p>
+<p>dsadsas</p>
+<h2 id="blah-2">Blah 2</h2>
+<h2 id="blah-3">Blah 3</h2>
+
+</article>
+</div>
+
+
+                
+                    
+                
+            </div>
+<footer>
+    <article>Copyright © 2021 by Benoît Paris</article>
+</footer>
+
+</main>
+    </body>
+</html>

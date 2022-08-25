@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on benoit.paris</title>
+    <link>http://example.org/</link>
+    <description>Recent content in Posts on benoit.paris</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 24 Aug 2022 15:53:54 +0200</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Winding numbers using a Cauchy integral formula with WebGL</title>
+      <link>http://example.org/posts/winding-cauchy-integral/</link>
+      <pubDate>Wed, 24 Aug 2022 15:53:54 +0200</pubDate>
+      
+      <guid>http://example.org/posts/winding-cauchy-integral/</guid>
+      <description>This what the winding number $n(\gamma ,a)$ of curve $\gamma$ around point $a$, expressed as special case of Cauchy&amp;rsquo;s integral formula looks like on potentially-non-closed loops, with complex numbers mapped to a hue-luminance space.
+$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
+Demo: ResetShuffleCircleSquareLevy Dragon+-This animation requires WebGL
+note comme quoi sur mobile ça marche pas because on utilise des textures pour stoquer les valeurs et que celles ci sont 4 bits sur mobile, 16 bits sur desktop https://webglfundamentals.</description>
+    </item>
+    
+  </channel>
+</rss>

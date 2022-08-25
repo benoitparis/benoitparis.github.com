@@ -1,0 +1,50 @@
+baseURL: http://example.org/
+languageCode: en
+defaultContentLanguage: en
+title: benoit.paris
+
+theme: 'hugo-theme-monochrome'
+
+params:
+  footer: Copyright © 2021 by Benoît Paris
+  enable_math: true
+  enable_site_search: true
+
+outputs: 
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+menu:
+  - docs:
+    parent: extras
+    weight: 20
+
+languages:
+  en:
+    languageName: English
+    languageCode: en
+    weight: 1
+  fr:
+    languageName: Français
+    languageCode: fr
+    weight: 2
+
+menu:
+  navbar:
+  - identifier: Posts
+    name: Posts
+    title: Posts
+    url: /Posts/
+    weight: -100
+  - identifier: LinkedIn
+    name: LinkedIn
+    url: https://www.linkedin.com/in/benoitparis/
+  - identifier: Github
+    name: Github
+    url: https://github.com/benoitparis
+  - identifier: About
+    name: About
+    title: About
+    url: /about/
