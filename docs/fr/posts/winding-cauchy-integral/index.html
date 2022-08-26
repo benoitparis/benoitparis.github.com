@@ -18,7 +18,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" href='/favicon.ico' type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Winding Cauchy Integral - benoit.paris</title>
+    <title>Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL - benoit.paris</title>
 
     
 
@@ -27,10 +27,10 @@
     
 
     
-        <meta property="og:title" content="Winding Cauchy Integral" />
-<meta property="og:description" content="FR FR FR
-nkfdskjfdshkfdsl
-dsadsas" />
+        <meta property="og:title" content="Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL" />
+<meta property="og:description" content="Indice d&rsquo;une courbe autour d&rsquo;un point avec une Intégrale de Cauchy, en WebGL Voici une visualisation de l&rsquo;indice -le nombre de tours- n(γ,a) d&rsquo;une courbe γ autour du point a, exprimée selon un cas spécial de la Formule intégrale de Cauchy; avec une courbe qu&rsquo;on ne ferme pas nécessairement sur elle-même. Les nombres complexes sont représentés dans un espace teinte-saturation.
+$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
+Demo (faites glisser la souris sur la surface rouge)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://benoit.paris/fr/posts/winding-cauchy-integral/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-08-24T15:53:54+02:00" />
@@ -41,10 +41,10 @@ dsadsas" />
 
     
         <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Winding Cauchy Integral"/>
-<meta name="twitter:description" content="FR FR FR
-nkfdskjfdshkfdsl
-dsadsas"/>
+<meta name="twitter:title" content="Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL"/>
+<meta name="twitter:description" content="Indice d&rsquo;une courbe autour d&rsquo;un point avec une Intégrale de Cauchy, en WebGL Voici une visualisation de l&rsquo;indice -le nombre de tours- n(γ,a) d&rsquo;une courbe γ autour du point a, exprimée selon un cas spécial de la Formule intégrale de Cauchy; avec une courbe qu&rsquo;on ne ferme pas nécessairement sur elle-même. Les nombres complexes sont représentés dans un espace teinte-saturation.
+$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
+Demo (faites glisser la souris sur la surface rouge)"/>
 
     <link rel="stylesheet" href="/style.min.5297c96c59a52afaa5bcda4a6cedf3813081f64025c209b25b2ee6d0c8f74d462b625ad3404a92a14d7a51b4ec0a420337ae70f426fa4bce2d5f7459a3ca7274.css" integrity="sha512-UpfJbFmlKvqlvNpKbO3zgTCB9kAlwgmyWy7m0Mj3TUYrYlrTQEqSoU16UbTsCkIDN65w9Cb6S84tX3RZo8pydA==">
 
@@ -87,6 +87,13 @@ if (!doNotTrack) {
 
 
 
+
+    
+        
+        
+            <script defer src="/js/builtin-copy.56e07a74dd440b068ab36af35542ed8960865686c19fb809f38436877ac081570612cc8a913650b0c0e3073a336680c5df960e73bf7b1de83dc6aa996f2db858.js" integrity="sha512-VuB6dN1ECwaKs2rzVULtiWCGVobBn7gJ84Q2h3rAgVcGEsyKkTZQsMDjBzozZoDF35YOc797Heg9xqqZby24WA=="></script>
+        
+    
 
 
 
@@ -175,6 +182,21 @@ if (!doNotTrack) {
                 </li></ul>
 </div><div id="content" class="content-margin">
                 
+    
+    <div class="collapsible-menu-wrapper"><div class="collapsible-menu-type"><span>Table of contents</span></div><div class="collapsible-menu">
+        
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#la-formule">La formule</a></li>
+    <li><a href="#artéfacts">Artéfacts</a></li>
+    <li><a href="#code">Code</a></li>
+    <li><a href="#construction">Construction</a></li>
+  </ul>
+</nav>
+        
+    </div></div>
+
 
 
     <div class="content-margin">
@@ -182,9 +204,554 @@ if (!doNotTrack) {
 <article class="line-numbers">
     
     
-    <p>FR FR FR</p>
-<p>nkfdskjfdshkfdsl</p>
-<p>dsadsas</p>
+    <h1 id="indice-dune-courbe-autour-dun-point-avec-une-intégrale-de-cauchy-en-webgl">Indice d&rsquo;une courbe autour d&rsquo;un point avec une Intégrale de Cauchy, en WebGL</h1>
+<p>Voici une visualisation de <a href="https://fr.wikipedia.org/wiki/Indice_(analyse_complexe)">l&rsquo;indice -le nombre de tours-</a> <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D6FE TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="2"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo stretchy="false">(</mo><mi>γ</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> d&rsquo;une courbe <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D6FE TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>γ</mi></math></mjx-assistive-mml></mjx-container> autour du point <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi></math></mjx-assistive-mml></mjx-container>, exprimée selon un cas spécial de la <a href="https://fr.wikipedia.org/wiki/Formule_int%C3%A9grale_de_Cauchy">Formule intégrale de Cauchy</a>; avec une courbe qu&rsquo;on ne ferme pas nécessairement sur elle-même. Les nombres complexes sont représentés dans un espace teinte-saturation.</p>
+<p>$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$</p>
+<h2 id="demo">Demo</h2>
+<p>(faites glisser la souris sur la surface rouge)</p>
+<div id="root-contour" style="text-align: center;">
+
+    <button onclick="location.reload();">Reset</button>
+    <input type="checkbox" id="shuffle" checked><label for="shuffle">Shuffle</label>
+    <button onclick="circleButton();">Circle</button>
+    <button onclick="squareButton();">Square</button>
+    <button onclick="levyButton();">Levy Dragon</button>
+    <input id="precision" type="text" value="" style="width:96px; pointer-events:none;">
+    <button onclick="plusPrecision();">+</button>
+    <button onclick="minusPrecision();">-</button>
+    <br>
+
+    <canvas id="canvasIntegral" style="cursor: pointer; touch-action: none;">This animation requires WebGL</canvas><br>
+
+    <input id="aValue" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none; font-family: monospace"><br>
+    <input id="console" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none; font-size: 12px;"><br>
+    <input id="debug" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none;"><br>
+
+
+    <script id="fragment-shader-hsltorgb" type="x-shader/x-fragment">
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+
+        uniform sampler2D u_hslSamp;
+
+        void main(void)
+        {
+
+            float h = mod(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).r / (12.0*6.28318531) , 1.0 ) ;
+            float s = 0.8;
+            float l = 0.5 + 0.5 * atan(texture2D(u_hslSamp, gl_FragCoord.xy / vec2( 512.0 , 512.0 )).g) / 1.57079633;
+
+            float h1 = h * 6.0; // cycle colors every 12 times
+            float c = s * ( 1.0 - abs( 2.0 * l - 1.0 ));
+            float x = c * ( 1.0 - abs( mod( h1 , 2.0 ) - 1.0 ));
+            float m = l - c / 2.0;
+
+            float r1 = 0.0;
+            float g1 = 0.0;
+            float b1 = 0.0;
+
+            if ( h1 >= 5.0 ) {
+                r1 = c ;
+                b1 = x ;
+            } else if ( h1 >= 4.0 ) {
+                r1 = x ;
+                b1 = c ;
+            } else if ( h1 >= 3.0 ) {
+                g1 = x ;
+                b1 = c ;
+            } else if ( h1 >= 2.0 ) {
+                g1 = c ;
+                b1 = x ;
+            } else if ( h1 >= 1.0 ) {
+                r1 = x ;
+                g1 = c ;
+            } else {
+                r1 = c ;
+                g1 = x ;
+            }
+
+            gl_FragColor = vec4( r1 + m , g1 + m , b1 + m , 1.0 );
+        }
+    </script>
+    <script id="fragment-shader-calc" type="x-shader/x-fragment">
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+
+        uniform sampler2D u_calcSamp;
+        uniform vec2 u_z;
+        uniform vec2 u_dz;
+
+        void main(void)
+        {
+            vec2 a = gl_FragCoord.xy / 512.0;
+            vec2 prev = texture2D( u_calcSamp , a ).xy;
+            vec2 delta = a - u_z;
+            float denom = dot( delta , delta );
+            gl_FragColor = vec4( prev.x + ( delta.x * u_dz.y - delta.y * u_dz.x) / denom  , prev.y + dot( delta , u_dz ) / denom , 1.0 , 1.0 );
+        }
+    </script>
+    <script id="vertex-shader-identity" type="x-shader/x-vertex">
+        attribute vec2 a_pos;
+        void main() {
+            gl_Position = vec4(a_pos.x, a_pos.y, 0.0, 1.0);
+        }
+    </script>
+
+    <script type="text/javascript">
+        
+        const CANVAS_SIZE_PX = 512;
+        let canvas = document.getElementById('canvasIntegral');
+        canvas.width = CANVAS_SIZE_PX;
+        canvas.height = CANVAS_SIZE_PX;
+        let pixelPrecision = 0;
+        let drawPrecision = () => (2 ** pixelPrecision) / CANVAS_SIZE_PX;
+
+        
+        let repaint;                   
+        let segmentArray = [];         
+        let gl;                        
+        let needsToBeShuffled = false;
+        let repaintCanvas;
+
+        
+        function start() {
+
+            const canvas = document.getElementById("canvasIntegral");
+            setupUI(canvas);
+            gl = getGl(canvas);
+
+            
+            const frame0 = createFrame(CANVAS_SIZE_PX);
+            const frame1 = createFrame(CANVAS_SIZE_PX);
+
+            
+            
+
+            
+            const identityVertexShader = getShader("vertex-shader-identity");
+            const hslToRgbShader = getShader("fragment-shader-hsltorgb");
+            const calcShader     = getShader("fragment-shader-calc");
+            const hslToRgbProgram = getProgram(identityVertexShader, hslToRgbShader);
+            const calcProgram     = getProgram(identityVertexShader, calcShader);
+            createVertices();
+
+            
+            const zVec2  = gl.getUniformLocation(calcProgram, "u_z");
+            const dzVec2 = gl.getUniformLocation(calcProgram, "u_dz");
+
+            
+            let lastFrameOutput = 1;
+            let needToRepaint = true;
+
+            let calculateSegment = (currentPoint) => {
+                
+                let currentTexture, currentFrameBuffer;
+                if (lastFrameOutput === 1) {
+                    currentTexture = frame1.texture;
+                    currentFrameBuffer = frame0.frameBuffer;
+                    lastFrameOutput = 0;
+                } else {
+                    currentTexture = frame0.texture;
+                    currentFrameBuffer = frame1.frameBuffer;
+                    lastFrameOutput = 1;
+                }
+                gl.bindTexture(gl.TEXTURE_2D, currentTexture);
+                gl.bindFramebuffer(gl.FRAMEBUFFER, currentFrameBuffer);
+
+                
+                gl.useProgram(calcProgram);
+                gl.uniform2f(zVec2, currentPoint[0], currentPoint[1]);
+                gl.uniform2f(dzVec2, currentPoint[2], currentPoint[3]);
+
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
+                gl.flush();
+                needToRepaint = true;
+
+            }
+
+            let lastRepaintDate = Date.now();
+            let lastRepaintTime = 250;
+            let smoothedLastRepaintTime = lastRepaintTime;
+            const REPAINT_TIME_SMOOTHING_FACTOR = 0.95;
+            repaintCanvas = () => {
+                gl.useProgram(hslToRgbProgram);
+                let currentTexture, currentFrameBuffer;
+                if ( lastFrameOutput === 1 ) {
+                    currentTexture = frame1.texture;
+                    currentFrameBuffer = frame0.frameBuffer;
+                } else {
+                    currentTexture = frame0.texture ;
+                    currentFrameBuffer = frame1.frameBuffer ;
+                }
+                gl.bindTexture(gl.TEXTURE_2D, currentTexture );
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
+
+                gl.flush();
+
+                gl.bindFramebuffer(gl.FRAMEBUFFER, currentFrameBuffer);
+                const pixels = new Float32Array(4);
+                gl.readPixels(mouseLastOffsetX, gl.drawingBufferHeight - mouseLastOffsetY + 1, 1, 1, gl.RGBA, gl.FLOAT, pixels);
+                const mouseValue = {re : pixels[0] / 2 / Math.PI, im : pixels[1] / 2 / Math.PI};
+                document.getElementById('aValue').value =
+                    "Cursor  Re: " + fixedLengthDecimal(mouseValue.re, 2, 3) +
+                    "  Im: " + fixedLengthDecimal(mouseValue.im, 2, 3);
+
+                const now = Date.now();
+                lastRepaintTime = now - lastRepaintDate;
+                smoothedLastRepaintTime =
+                    smoothedLastRepaintTime * REPAINT_TIME_SMOOTHING_FACTOR +
+                    lastRepaintTime * (1 - REPAINT_TIME_SMOOTHING_FACTOR)
+                lastRepaintDate = now ;
+                needToRepaint = false;
+                run();
+            }
+
+            let numberOfCalcCycles = 100;
+            const MIN_CALC_CYCLES = 5;
+            
+            const IDEAL_FRAME_TIME = 1000 / 25;
+            const GPU_JITTER_SMOOTHING_FACTOR = 10;
+            let running = false;
+            let run = () => {
+                running = true;
+
+                if(needsToBeShuffled && document.getElementById('shuffle').checked) {
+                    shuffle();
+                    needsToBeShuffled = false;
+                }
+
+                numberOfCalcCycles = Math.min(
+                    segmentArray.length,
+                    Math.max(
+                        MIN_CALC_CYCLES,
+                        numberOfCalcCycles * ( 1 + ((IDEAL_FRAME_TIME - lastRepaintTime) / IDEAL_FRAME_TIME) / GPU_JITTER_SMOOTHING_FACTOR ) 
+                    )
+                );
+                document.getElementById('console').value = "Last duration: " + Math.round(smoothedLastRepaintTime) + "ms. Adding " + Math.floor(numberOfCalcCycles) + " cycles between frames. Segments left: " + segmentArray.length + ".";
+
+                for(let i = 0 ; i < numberOfCalcCycles && segmentArray.length > 0 ; i++) {
+                    calculateSegment(segmentArray.pop());
+                }
+                if (needToRepaint) {
+                    window.requestAnimationFrame(repaintCanvas);
+                } else {
+                    running = false;
+                }
+            }
+
+            repaint = () => {
+                if (!running) {
+                    run();
+                }
+            }
+
+            
+            run();
+        }
+
+
+        
+        let line = (points) => {
+            needsToBeShuffled = true;
+            const ax = points[0];
+            const ay = points[1];
+            const bx = points[2];
+            const by = points[3];
+
+            const cx = (ax+bx)/2.0;
+            const cy = (ay+by)/2.0;
+            if (Math.abs(ax-bx) > drawPrecision()*2 || Math.abs(ay-by) > drawPrecision()*2 ) {
+                line([ax, ay, cx, cy        ]);
+                line([        cx, cy, bx, by]);
+            } else {
+                segmentArray.unshift([ cx, cy, bx-ax, by-ay ]);
+            }
+        }
+        let rect = (ax, ay, sx, sy) => {
+            line([ax   ,ay   ,ax+sx,   ay]);
+            line([ax+sx,ay   ,ax+sx,ay+sy]);
+            line([ax+sx,ay+sy,ax   ,ay+sy]);
+            line([ax,   ay+sy,ax   ,ay   ]);
+        }
+        let circle = (ax, ay, r) => {
+            const iMax = Math.ceil(2 * Math.PI * r / drawPrecision());
+            let lastX = ax + r;
+            let lastY = ay;
+            for (let i = 0; i<=iMax; i++) {
+                const theta = i / iMax * 2 * Math.PI;
+                const newX = ax + r * Math.cos(theta);
+                const newY = ay + r * Math.sin(theta);
+                line([lastX,lastY,newX,newY]);
+                lastX = newX;
+                lastY = newY;
+            }
+        }
+        let levyDragon = (ax, ay, bx, by ) => {
+            if ( (Math.abs(ax-bx) > drawPrecision()*2 || Math.abs(ay-by) > drawPrecision()*2)) {
+                const cx = ax - ( by - ay - bx + ax ) / 2;
+                const cy = ay + ( by - ay + bx - ax ) / 2;
+                levyDragon( ax, ay, cx, cy         );
+                levyDragon(         cx, cy, bx, by );
+            } else {
+                line( [ax, ay, bx, by] );
+            }
+        }
+        let shuffle = () => {
+            for(let j, x, i = segmentArray.length;
+                i;
+                j = Math.floor(Math.random() * i),
+                    x = segmentArray[--i],
+                    segmentArray[i] = segmentArray[j],
+                    segmentArray[j] = x
+            ) {}
+        }
+
+
+        
+        let mouseLastOffsetX = 1;
+        let mouseLastOffsetY = 1;
+        let mouseLastOffsetClickX = -1;
+        let mouseLastOffsetClickY = -1;
+        let isMouseDown = false;
+        let setupUI = (canvas) => {
+            canvas.onmousedown = () => {isMouseDown = true;
+                document.getElementById('debug').value = "onmousedown!";};
+            canvas.touchstart  = canvas.onmousedown;
+            canvas.onmouseup   = () => {isMouseDown = false;
+                document.getElementById('debug').value = "onmouseup!";};
+            canvas.touchend    = canvas.onmouseup;
+            canvas.onmousemove = (e) => {
+                e.preventDefault();
+                if (e.touches) {
+                    var touch = e.touches[0] || e.changedTouches[0];
+                    var realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                    e.offsetX = touch.clientX-realTarget.getBoundingClientRect().x;
+                    e.offsetY = touch.clientY-realTarget.getBoundingClientRect().y;
+                }
+
+                if (isMouseDown || e.touches) {
+                    if (mouseLastOffsetClickX !== -1) {
+                        line([
+                            mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                            e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                        ]);
+                        repaint();
+                    }
+                    mouseLastOffsetClickX = e.offsetX;
+                    mouseLastOffsetClickY = e.offsetY;
+                    document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
+                } else {
+                    mouseLastOffsetClickX = -1;
+                    document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
+                }
+
+                mouseLastOffsetX = e.offsetX;
+                mouseLastOffsetY = e.offsetY;
+                if (segmentArray.length === 0) {
+                    window.requestAnimationFrame(repaintCanvas);
+                }
+
+            };
+            canvas.ontouchmove = canvas.onmousemove;
+        }
+        let circleButton = () => {
+            circle(0.5,0.5,0.25);
+            repaint();
+        }
+        let squareButton = () => {
+            rect(0.25,0.25,0.5,0.5);
+            repaint();
+        }
+        const MIN_PRECISION_LEVY = -1;
+        let levyButton = () => {
+            pixelPrecision = Math.max(pixelPrecision, MIN_PRECISION_LEVY);
+            setPrecisionText();
+            levyDragon(0.4 ,0.2, 0.8 , 0.6 );
+            line( [.8, .6, .4, .2] );
+            repaint();
+        }
+        let setPrecisionText = () => {
+            let precisionText;
+            if (pixelPrecision > 0) {
+                precisionText = "" + 2 ** pixelPrecision;
+            } else if (pixelPrecision === 0) {
+                precisionText = "1";
+            } else {
+                precisionText = "1/" + 2 ** (-pixelPrecision);
+            }
+            document.getElementById('precision').value = "Precision: " + precisionText;
+        }
+        setPrecisionText();
+        let plusPrecision = () => {
+            pixelPrecision++;
+            setPrecisionText();
+        }
+        const MIN_PRECISION = -6;
+        let minusPrecision = () => {
+            pixelPrecision--;
+            pixelPrecision = Math.max(pixelPrecision, MIN_PRECISION);
+            setPrecisionText();
+        }
+        let fixedLengthDecimal = (v, left, right) => {
+            return (v < 0 ? '-' : '+') + Math.abs(v).toFixed(right).padStart(left + right + 1, '0');
+        }
+
+
+
+        
+        let getGl = (canvas) => {
+            
+            let result;
+            try {
+                result = canvas.getContext("webgl") || canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
+            } catch(e) {
+                console.log("Problem loading WebGL");
+                console.log(e.toString());
+            }
+            result.getExtension("OES_texture_float");
+            result.getExtension("OES_texture_float_linear");
+            return result;
+        }
+
+        let createFrame = (size) => {
+            
+            const texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, size, size, 0, gl.RGBA, gl.FLOAT, null);
+
+            const frameBuffer = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+            return { texture:texture, frameBuffer:frameBuffer };
+        }
+
+        let getShader = (nodeId) => {
+            const shaderSourceNode = document.getElementById(nodeId);
+            const shader = gl.createShader(shaderSourceNode.type === "x-shader/x-vertex" ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER );
+            gl.shaderSource(shader, shaderSourceNode.firstChild.textContent);
+            gl.compileShader(shader);
+            console.log(nodeId +" compile status: " + gl.getShaderParameter(shader, gl.COMPILE_STATUS));
+            return shader;
+        }
+
+        let getProgram = (vertexShader, fragmentShader) => {
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            console.log("Program link status: " + gl.getProgramParameter(program, gl.LINK_STATUS));
+            return program;
+        }
+
+        
+        let createVertices = () => {
+            gl.enableVertexAttribArray(0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+            const vertices = [ -1., -1., 1., -1., 1., 1., -1., 1., -1., -1. ];
+            gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        }
+
+
+        
+
+        
+        
+        
+
+
+
+        
+
+
+
+        
+        
+
+
+
+        
+
+
+
+
+        
+
+
+        
+
+
+        
+
+
+        
+
+
+
+        
+        
+        
+        
+        
+        
+        
+
+
+
+        
+
+
+
+        
+
+
+        start();
+    </script>
+</div>
+
+<p>Chaque pixel affiche par sa couleur son indice: la partie réelle donne la teinte, la partie imaginaire la luminance. Des formes prédéfinies sont mises à disposition.</p>
+<h2 id="la-formule">La formule</h2>
+<p>Pendant la démonstration de la <a href="https://fr.wikipedia.org/wiki/Formule_int%C3%A9grale_de_Cauchy">Formule intégrale de Cauchy</a>, on tombe sur une formule remarquable. Formée à partir de composantes innocentes complexes, elle donne toujours un nombre entier et réel. De plus, assez mystérieusement, elle indique le nombre de tour que la courbe fait autour du point! Mais on exige que la courbe soit être fermée sur elle même.</p>
+<p>Ne me demandez pas une explication intuitive du phénomène. À vrai dire j&rsquo;ai construit cette visualisation pour essayer de m&rsquo;en faire une idée. <a href="https://math.stackexchange.com/questions/4054/intuitive-explanation-of-cauchys-integral-formula-in-complex-analysis">Vous pouvez tenter de construire la votre à partir de ces réponses</a>.</p>
+<p>Du coup, que se passe-t-il si on ne referme pas la boucle? Eh bien la formule nous renvoie une &rsquo;erreur&rsquo;, sous la forme d&rsquo;un nombre qui comporte désormais une partie imaginaire. Une zone devient positive et demande qu&rsquo;on parte de ce point (luminance élevée), ou bien négative (faible luminance) si il faut qu&rsquo;on y aille. On peut alors &lsquo;rendre le plan réel&rsquo; en allant des parties lumineuses vers les sombres et effectivement clore les courbes sur elle-mêmes. La formule est fournie avec sa propre fonction de debogage!</p>
+<p>On notera que l&rsquo;inverse d&rsquo;une courbe est la même courbe mais parcourue en sens inverse: on remplace $dz$ by $-dz$ dans la formule. Aussi, l&rsquo;intégration (~somme, ici) est commutative et peut être effectuée dans n&rsquo;importe quel ordre; c&rsquo;est l&rsquo;option &lsquo;shuffle&rsquo;.</p>
+<p>Ceci signifie qu&rsquo;on peut diviser une plus grande courbe en deux par un aller-retour entre deux de ses points, en réarrangeant les intégrales. Cette opération est l&rsquo;identité, puisqu&rsquo;on vient seulement de rajouter une courbe et son inverse. Et vice versa, on peut fusionner deux courbes ayant un bord commun en une plus grande.</p>
+<figure><img src="/shape-splitting.png"
+         alt="Diviser une courbe, si on regarde pas les artéfacts"/><figcaption>
+            <p>Diviser une courbe, si on regarde pas les artéfacts</p>
+        </figcaption>
+</figure>
+
+<h2 id="artéfacts">Artéfacts</h2>
+<p>On peut configurer des niveaux de précision pour utiliser des $dz$ plus ou moins grands. Une précision plus fine aura moins de pointillés, une meilleure fidélité de l&rsquo;intégration, ce sera plus lente; cependant on pourrait accumuler plus d&rsquo;erreur due à l&rsquo;imprecision des nombres flottants.</p>
+<p>Sur mobile vous ne verrez probablement pas de surface unie sur des courbes fermées. C&rsquo;est dû au fait que les résultats intermediaires sont stockés dans des textures en nombres flottants, et que <a href="https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats">WebGL ne donne que 4 bits sur mobile, alors qu&rsquo;il en fournit 16 sur Desktop</a>.</p>
+<h2 id="code">Code</h2>
+<p><a href="https://github.com/benoitparis/winding-contour-cauchy">Ici</a></p>
+<h2 id="construction">Construction</h2>
+<p>Bon, si vous voulez un calcul sur une zone de ~500x500 pixel pour une courbe de 1000 éléments, on est déjà à 250 million d&rsquo;opérations; l&rsquo;utilisation d&rsquo;un GPU est donc pluc adaptée.</p>
+<p>J&rsquo;utilise deux <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader"><code>fragment shaders</code></a>. Un pour projeter les parties réeles et imaginaires, que je stocke dans les channels rouge et vert, dans un espace teinte-saturation-luminance. J&rsquo;ai choisi la teinte pour la partie réelle parce qu&rsquo;elle illustre un &lsquo;degré de situation&rsquo; pour un point. On voudra commenter la cohérence de cette situation dans un sens ou un autre: ce sera donc la luminance pour la partie imaginaire. Et on met une saturation constante. La teinte est coefficientée de telle sorte qu&rsquo;un nombre entier de tours (12) nous ramène au rouge.</p>
+<p>L&rsquo;autre <code>fragment shader</code> contient la formule, et deux textures sont interverties en lecture-écriture pour accumuler la somme. La programmation en <a href="https://fr.wikipedia.org/wiki/OpenGL_Shading_Language">glsl</a>/WebGL est admirablement claire avec sa nature <a href="https://fr.wikipedia.org/wiki/Single_instruction_multiple_data">SIMD</a>. On donne les coordonnées (x,y) d&rsquo;un pixel, et charge au programmeur de déterminer la couleur de ce pixel:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main(<span style="color:#66d9ef">void</span>) {                                                
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">vec2</span> a <span style="color:#f92672">=</span> gl_FragCoord.xy <span style="color:#f92672">/</span> <span style="color:#ae81ff">512.0</span>;                  <span style="color:#960050;background-color:#1e0010">#</span> mise <span style="color:#960050;background-color:#1e0010">à</span> l<span style="color:#960050;background-color:#1e0010">&#39;</span>echelle de xy
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">vec2</span> prev <span style="color:#f92672">=</span> texture2D(u_calcSamp, a).xy;           <span style="color:#960050;background-color:#1e0010">#</span> valeur précedente
+</span></span><span style="display:flex;"><span>                                                       <span style="color:#960050;background-color:#1e0010">#</span> formule de Cauchy
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">vec2</span> delta <span style="color:#f92672">=</span> a <span style="color:#f92672">-</span> u_z;                              
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> denom <span style="color:#f92672">=</span> dot(delta, delta);                          
+</span></span><span style="display:flex;"><span>    gl_FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(                                        <span style="color:#960050;background-color:#1e0010">#</span> rgba en sortie
+</span></span><span style="display:flex;"><span>        prev.x <span style="color:#f92672">+</span> (delta.x <span style="color:#f92672">*</span> u_dz.y <span style="color:#f92672">-</span> delta.y <span style="color:#f92672">*</span> u_dz.x) <span style="color:#f92672">/</span> denom, <span style="color:#960050;background-color:#1e0010">#</span> réel en rouge
+</span></span><span style="display:flex;"><span>        prev.y <span style="color:#f92672">+</span> dot(delta, u_dz) <span style="color:#f92672">/</span> denom,                      <span style="color:#960050;background-color:#1e0010">#</span> imaginaire en vert
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1.0</span>,                                                    
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1.0</span>                                                     
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<p>Si programmer en glsl/WebGL vous tente, je recommande vivement le site <a href="https://www.shadertoy.com/">Shadertoy</a>.</p>
+<p>Par ailleurs je mesure le temps entre deux <code>animation frames</code>, et met autant de cycles de calcul que possible en essayant de ne pas dépasser 40ms entre deux frames.</p>
+<p>C&rsquo;est à peu près tout, le reste du code est de la colle, de l&rsquo;UI, et des fonctionalités classiques.</p>
+<hr>
 
 </article>
 </div>

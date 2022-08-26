@@ -49,6 +49,22 @@ languages:
           url: https://benoit.paris/CV_Benoit_Paris.pdf
           weight: 100
   fr:
+    #markup:
+    #  tableOfContents:
+    #    endLevel: 3
+    #    ordered: true
+    #    startLevel: 2
+    #    title: plop
+    #    name: plop
+    #    headings: plop
+    #    heading: plop
+    #    Headings: plop
+    #    h: plop
+    #    H: plop
+    #    s: plop
+    #    headingText: plop
+    #    text: plop
+    #    tocHeading: plop
     contentDir: content/fr
     languageName: Français
     languageCode: fr
@@ -60,7 +76,7 @@ languages:
         title: Blog
         url: /fr/posts/
         weight: -100
-      - identifier: About
+      - identifier: À propos
         name: À propos
         title: À propos
         url: /fr/about/
