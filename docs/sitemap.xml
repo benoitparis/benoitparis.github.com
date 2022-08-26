@@ -2,14 +2,14 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <sitemap>
-    <loc>http://example.org/en/sitemap.xml</loc>
+    <loc>https://benoit.paris/en/sitemap.xml</loc>
     
       <lastmod>2022-08-24T15:53:54+02:00</lastmod>
     
   </sitemap>
   
   <sitemap>
-    <loc>http://example.org/fr/sitemap.xml</loc>
+    <loc>https://benoit.paris/fr/sitemap.xml</loc>
     
       <lastmod>2022-08-24T15:53:54+02:00</lastmod>
     

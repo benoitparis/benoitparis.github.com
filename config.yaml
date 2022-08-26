@@ -1,4 +1,4 @@
-baseURL: http://example.org/
+baseURL: https://benoit.paris/
 languageCode: en
 defaultContentLanguage: en
 title: benoit.paris
@@ -6,9 +6,9 @@ title: benoit.paris
 theme: 'hugo-theme-monochrome'
 
 params:
-  footer: Copyright © 2021 by Benoît Paris
+  footer: Copyright © 2022 by Benoît Paris
   enable_math: true
-  enable_site_search: true
+  enable_site_search: false
 
 publishDir:
   docs
@@ -18,11 +18,6 @@ outputs:
     - HTML
     - RSS
     - JSON
-
-menu:
-  - docs:
-    parent: extras
-    weight: 20
 
 languages:
   en:
@@ -58,3 +53,9 @@ menu:
     name: CV
     url: https://benoit.paris/CV_Benoit_Paris.pdf
     weight: 100
+
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    renderer:
+      unsafe: true

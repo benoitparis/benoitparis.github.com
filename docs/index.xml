@@ -2,21 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on benoit.paris</title>
-    <link>http://example.org/</link>
+    <link>https://benoit.paris/</link>
     <description>Recent content in Posts on benoit.paris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 24 Aug 2022 15:53:54 +0200</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 24 Aug 2022 15:53:54 +0200</lastBuildDate><atom:link href="https://benoit.paris/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Winding numbers using a Cauchy integral formula with WebGL</title>
-      <link>http://example.org/posts/winding-cauchy-integral/</link>
+      <title>Winding numbers using a Cauchy integral, with WebGL</title>
+      <link>https://benoit.paris/posts/winding-cauchy-integral/</link>
       <pubDate>Wed, 24 Aug 2022 15:53:54 +0200</pubDate>
       
-      <guid>http://example.org/posts/winding-cauchy-integral/</guid>
-      <description>This what the winding number $n(\gamma ,a)$ of curve $\gamma$ around point $a$, expressed as special case of Cauchy&amp;rsquo;s integral formula looks like on potentially-non-closed loops, with complex numbers mapped to a hue-luminance space.
+      <guid>https://benoit.paris/posts/winding-cauchy-integral/</guid>
+      <description>This what the winding number n(γ,a) of curve γ around point a, expressed as special case of Cauchy&amp;rsquo;s integral formula looks like on potentially-non-closed loops, with complex numbers mapped to a hue-luminance space.
 $$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
-Demo: ResetShuffleCircleSquareLevy Dragon+-This animation requires WebGL
-note comme quoi sur mobile ça marche pas because on utilise des textures pour stoquer les valeurs et que celles ci sont 4 bits sur mobile, 16 bits sur desktop https://webglfundamentals.</description>
+Demo (drag your mouse on the red canvas, try to close loops)
+ResetShuffleCircleSquareLevy Dragon+-This animation requires WebGL
+Each pixel displays its winding number; hovering over it displays the real (Re) and imaginary (Im) part.</description>
     </item>
     
   </channel>

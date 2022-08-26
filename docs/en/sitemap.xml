@@ -2,69 +2,69 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://benoit.paris/</loc>
     <lastmod>2022-08-24T15:53:54+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://example.org/fr/"
+                href="https://benoit.paris/fr/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/"
+                href="https://benoit.paris/"
                 />
   </url><url>
-    <loc>http://example.org/posts/</loc>
+    <loc>https://benoit.paris/posts/</loc>
     <lastmod>2022-08-24T15:53:54+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://example.org/fr/posts/"
+                href="https://benoit.paris/fr/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/posts/"
+                href="https://benoit.paris/posts/"
                 />
   </url><url>
-    <loc>http://example.org/about/</loc>
+    <loc>https://benoit.paris/about/</loc>
   </url><url>
-    <loc>http://example.org/posts/winding-cauchy-integral/</loc>
+    <loc>https://benoit.paris/posts/winding-cauchy-integral/</loc>
     <lastmod>2022-08-24T15:53:54+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://example.org/fr/posts/winding-cauchy-integral/"
+                href="https://benoit.paris/fr/posts/winding-cauchy-integral/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/posts/winding-cauchy-integral/"
+                href="https://benoit.paris/posts/winding-cauchy-integral/"
                 />
   </url><url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://benoit.paris/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://example.org/fr/categories/"
+                href="https://benoit.paris/fr/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/categories/"
+                href="https://benoit.paris/categories/"
                 />
   </url><url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://benoit.paris/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="http://example.org/fr/tags/"
+                href="https://benoit.paris/fr/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/tags/"
+                href="https://benoit.paris/tags/"
                 />
   </url>
 </urlset>
