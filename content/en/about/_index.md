@@ -9,8 +9,8 @@ Independent contractor in Paris. Not against remote gigs.
 
 Interests:
 
-* Explainable machine learning models
-* Distributed Data Streaming
+* Explainable machine learning
+* Low Latency Distributed Data Streaming
 * Open Data
 
-Contact info: Either pro@benoit.paris or perso@benoit.paris, depending on what you want to talk about.
+Contact info: pro@benoit.paris, or perso@benoit.paris

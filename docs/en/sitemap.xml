@@ -29,6 +29,16 @@
                 />
   </url><url>
     <loc>https://benoit.paris/about/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://benoit.paris/fr/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://benoit.paris/about/"
+                />
   </url><url>
     <loc>https://benoit.paris/posts/winding-cauchy-integral/</loc>
     <lastmod>2022-08-24T15:53:54+02:00</lastmod>

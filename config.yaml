@@ -20,38 +20,63 @@ outputs:
 
 languages:
   en:
+    contentDir: content/en
     languageName: English
     languageCode: en
     weight: 1
+    menu:
+      navbar:
+        - identifier: Posts
+          name: Posts
+          title: Posts
+          url: /posts/
+          weight: -100
+        - identifier: About
+          name: About
+          title: About
+          url: /about/
+          weight: -50
+        - identifier: LinkedIn
+          name: LinkedIn
+          url: https://www.linkedin.com/in/benoitparis/
+          weight: 10
+        - identifier: Github
+          name: Github
+          url: https://github.com/benoitparis
+          weight: 50
+        - identifier: CV
+          name: CV
+          url: https://benoit.paris/CV_Benoit_Paris.pdf
+          weight: 100
   fr:
+    contentDir: content/fr
     languageName: Français
     languageCode: fr
     weight: 2
-
-menu:
-  navbar:
-  - identifier: Posts
-    name: Posts
-    title: Posts
-    url: /Posts/
-    weight: -100
-  - identifier: About
-    name: About
-    title: About
-    url: /about/
-    weight: -50
-  - identifier: LinkedIn
-    name: LinkedIn
-    url: https://www.linkedin.com/in/benoitparis/
-    weight: 10
-  - identifier: Github
-    name: Github
-    url: https://github.com/benoitparis
-    weight: 50
-  - identifier: CV
-    name: CV
-    url: https://benoit.paris/CV_Benoit_Paris.pdf
-    weight: 100
+    menu:
+      navbar:
+      - identifier: Blog
+        name: Blog
+        title: Blog
+        url: /fr/posts/
+        weight: -100
+      - identifier: About
+        name: À propos
+        title: À propos
+        url: /fr/about/
+        weight: -50
+      - identifier: LinkedIn
+        name: LinkedIn
+        url: https://www.linkedin.com/in/benoitparis/
+        weight: 10
+      - identifier: Github
+        name: Github
+        url: https://github.com/benoitparis
+        weight: 50
+      - identifier: CV
+        name: CV
+        url: https://benoit.paris/CV_Benoit_Paris.pdf
+        weight: 100
 
 markup:
   defaultMarkdownHandler: goldmark
