@@ -336,7 +336,6 @@
                 // document.getElementById('debug').value = "touchcancel!";
             };
             canvas.onmousemove = (e) => {
-                document.getElementById('debug').value = "omm " + e.touches + " " + mouseLastOffsetClickX + " " + e.offsetX;
 
 
                 e.preventDefault();
@@ -346,6 +345,7 @@
                     e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
                     e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
                 }
+                document.getElementById('debug').value = "omm " + e.touches + " " + mouseLastOffsetClickX + " " + e.offsetX;
 
                 if (isMouseDown || e.touches) {
                     if (mouseLastOffsetClickX !== -1 ||
