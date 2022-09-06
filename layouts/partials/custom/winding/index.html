@@ -358,9 +358,9 @@
                 if ((Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickX - e.offsetX)) > 50) {
                     document.getElementById('debug').value =
                         "h " + e.touches +
-                        " " + hasPreviousPoint
-                        " " + mouseLastOffsetClickX
-                        " " + e.offsetX
+                        " " + hasPreviousPoint +
+                        " " + mouseLastOffsetClickX +
+                        " " + e.offsetX +
                         " " + isMouseDown
                     ;
 
