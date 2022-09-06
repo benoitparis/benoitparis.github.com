@@ -555,7 +555,17 @@ if (!doNotTrack) {
                     e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
                     e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
                 }
-                document.getElementById('debug').value = "omm " + e.touches + " " + hasPreviousPoint;
+
+                if ((Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickX - e.offsetX)) > 50) {
+                    document.getElementById('debug').value =
+                        "h " + e.touches +
+                        " " + hasPreviousPoint
+                        " " + mouseLastOffsetClickX
+                        " " + e.offsetX
+                        " " + isMouseDown
+                    ;
+
+                }
 
                 if (isMouseDevice()) {
                     if (isMouseDown || e.touches) {
