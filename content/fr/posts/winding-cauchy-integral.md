@@ -19,7 +19,7 @@ Chaque pixel affiche par sa couleur son indice: la partie réelle donne la teint
 
 ## La formule
 
-Pendant la démonstration de la [Formule intégrale de Cauchy](https://fr.wikipedia.org/wiki/Formule_int%C3%A9grale_de_Cauchy), on tombe sur une formule remarquable. Formée à partir de composantes innocentes complexes, elle donne toujours un nombre entier et réel. De plus, assez mystérieusement, elle indique le nombre de tour que la courbe fait autour du point! Mais on exige que la courbe soit être fermée sur elle même.
+Pendant la démonstration de la [Formule intégrale de Cauchy](https://fr.wikipedia.org/wiki/Formule_int%C3%A9grale_de_Cauchy), on tombe sur une formule remarquable. Formée à partir de composantes innocentes complexes, elle donne toujours un nombre entier et réel. De plus, assez mystérieusement, elle indique le nombre de tour que la courbe fait autour du point! Mais on exige que la courbe soit fermée sur elle même.
 
 Ne me demandez pas une explication intuitive du phénomène. À vrai dire j'ai construit cette visualisation pour essayer de m'en faire une idée. [Vous pouvez tenter de construire la votre à partir de ces réponses](https://math.stackexchange.com/questions/4054/intuitive-explanation-of-cauchys-integral-formula-in-complex-analysis).
 
