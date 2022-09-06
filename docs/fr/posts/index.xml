@@ -6,11 +6,11 @@
     <description>Recent content in Blog on benoit.paris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr</language>
-    <lastBuildDate>Wed, 24 Aug 2022 15:53:54 +0200</lastBuildDate><atom:link href="https://benoit.paris/fr/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Sep 2022 12:53:54 +0200</lastBuildDate><atom:link href="https://benoit.paris/fr/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL</title>
       <link>https://benoit.paris/fr/posts/winding-cauchy-integral/</link>
-      <pubDate>Wed, 24 Aug 2022 15:53:54 +0200</pubDate>
+      <pubDate>Tue, 06 Sep 2022 12:53:54 +0200</pubDate>
       
       <guid>https://benoit.paris/fr/posts/winding-cauchy-integral/</guid>
       <description>Indice d&amp;rsquo;une courbe autour d&amp;rsquo;un point avec une Intégrale de Cauchy, en WebGL Voici une visualisation de l&amp;rsquo;indice -le nombre de tours- n(γ,a) d&amp;rsquo;une courbe γ autour du point a, exprimée selon un cas spécial de la Formule intégrale de Cauchy; avec une courbe qu&amp;rsquo;on ne ferme pas nécessairement sur elle-même. Les nombres complexes sont représentés dans un espace teinte-saturation.

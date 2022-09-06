@@ -1,6 +1,6 @@
 ---
 title: "Indice d'une courbe autour d'un point avec une Intégrale de Cauchy, en WebGL"
-date: 2022-08-24T15:53:54+02:00
+date: 2022-09-06T12:53:54+02:00
 ---
 
 # Indice d'une courbe autour d'un point avec une Intégrale de Cauchy, en WebGL

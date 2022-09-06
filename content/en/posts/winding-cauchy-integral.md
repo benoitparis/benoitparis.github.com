@@ -1,6 +1,6 @@
 ---
 title: "Winding numbers using a Cauchy integral, with WebGL"
-date: 2022-08-24T15:53:54+02:00
+date: 2022-09-06T12:53:54+02:00
 ---
 
 # Winding numbers using a Cauchy integral, with WebGL
