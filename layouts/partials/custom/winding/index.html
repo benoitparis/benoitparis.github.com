@@ -327,7 +327,10 @@
                 isMouseDown = false;
                 document.getElementById('debug').value = "onmouseup!";
             };
-            canvas.touchend    = canvas.onmouseup;
+            canvas.touchend    = () => {
+                mouseLastOffsetClickX = -1;
+                document.getElementById('debug').value = "touchend!";
+            };
             canvas.onmousemove = (e) => {
                 e.preventDefault();
                 if (e.touches) {
@@ -335,9 +338,6 @@
                     let realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
                     e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
                     e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
-                } else {
-                    mouseLastOffsetClickX = -1;
-                    document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                 }
 
                 if (isMouseDown || e.touches) {
