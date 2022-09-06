@@ -517,11 +517,16 @@ if (!doNotTrack) {
         let mouseLastOffsetClickY = -1;
         let isMouseDown = false;
         let setupUI = (canvas) => {
-            canvas.onmousedown = () => {isMouseDown = true;
-                document.getElementById('debug').value = "onmousedown!";};
+            canvas.onmousedown = () => {
+                isMouseDown = true;
+                document.getElementById('debug').value = "onmousedown!";
+            };
             canvas.touchstart  = canvas.onmousedown;
-            canvas.onmouseup   = () => {isMouseDown = false;
-                document.getElementById('debug').value = "onmouseup!";};
+            canvas.onmouseup   = () => {
+                isMouseDown = false;
+                mouseLastOffsetClickX = -1;
+                document.getElementById('debug').value = "onmouseup!";
+            };
             canvas.touchend    = canvas.onmouseup;
             canvas.onmousemove = (e) => {
                 e.preventDefault();
