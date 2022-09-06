@@ -331,6 +331,10 @@
                 mouseLastOffsetClickX = -1;
                 document.getElementById('debug').value = "touchend!";
             };
+            canvas.touchcancel    = () => {
+                mouseLastOffsetClickX = -1;
+                document.getElementById('debug').value = "touchcancel!";
+            };
             canvas.onmousemove = (e) => {
                 e.preventDefault();
                 if (e.touches) {
