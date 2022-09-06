@@ -348,12 +348,12 @@
             canvas.onmousemove = (e) => {
 
                 e.preventDefault();
-                // if (e.touches) {
-                //     let touch = e.touches[0] || e.changedTouches[0];
-                //     let realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-                //     e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
-                //     e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
-                // }
+                if (e.touches) {
+                    let touch = e.touches[0] || e.changedTouches[0];
+                    let realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                    e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
+                    e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
+                }
                 document.getElementById('debug').value = "omm " + e.touches + " " + hasPreviousPoint;
 
                 if (isMouseDevice()) {
@@ -374,24 +374,25 @@
                         // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                     }
                 }
-                // if (isTouchDevice()) {
-                //     if (e.touches) {
-                //         if (mouseLastOffsetClickX !== -1) {
-                //             line([
-                //                 mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                //                 e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
-                //             ]);
-                //             repaint();
-                //         }
-                //         mouseLastOffsetClickX = e.offsetX;
-                //         mouseLastOffsetClickY = e.offsetY;
-                //         // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
-                //     } else {
-                //         mouseLastOffsetClickX = -1;
-                //         // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
-                //     }
-                //
-                // }
+                if (isTouchDevice() && !isMouseDevice()) { // some devices have both, then it is mouse-only
+                    if (e.touches) {
+                        if (hasPreviousPoint) {
+                            line([
+                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                            ]);
+                            repaint();
+                        }
+                        mouseLastOffsetClickX = e.offsetX;
+                        mouseLastOffsetClickY = e.offsetY;
+                        hasPreviousPoint = true;
+                        // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
+                    } else {
+                        hasPreviousPoint = false;
+                        // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
+                    }
+
+                }
 
                 mouseLastOffsetX = e.offsetX;
                 mouseLastOffsetY = e.offsetY;
