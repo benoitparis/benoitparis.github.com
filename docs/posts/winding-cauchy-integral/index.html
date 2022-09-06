@@ -547,7 +547,7 @@ if (!doNotTrack) {
 
                 if (isMouseDown || e.touches) {
                     if (mouseLastOffsetClickX !== -1 ||
-                        (e.touches && (Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickY - e.offsetY)) > 50) 
+                        (e.touches && (Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickY - e.offsetY)) < 50) 
                     ) {
                         line([
                             mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
