@@ -527,6 +527,7 @@ if (!doNotTrack) {
         let mouseLastOffsetClickX = -1;
         let mouseLastOffsetClickY = -1;
         let hasPreviousPoint = false;
+        let hasPreviousPreviousPoint = false;
         let isMouseDown = false;
         let setupUI = (canvas) => {
             canvas.onmousedown = () => {
@@ -572,7 +573,7 @@ if (!doNotTrack) {
 
                 if (isMouseDevice()) {
                     if (isMouseDown || e.touches) {
-                        if (hasPreviousPreviousPoint) {
+                        if (hasPreviousPoint) {
                             line([
                                 mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
                                 e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
