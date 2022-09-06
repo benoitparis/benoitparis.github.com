@@ -9,7 +9,7 @@ Independent contractor in Paris. Not against remote gigs.
 
 Interests:
 
-* Explainable machine learning ([explicable.ai](https://explicable.ai))
+* Explainable machine learning ([explicable.ai](http://explicable.ai))
 * Causal Machine learning
 * High dimensional indexing
 * Low Latency Distributed Data Streaming

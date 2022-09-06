@@ -9,7 +9,7 @@ Indépendant sur Paris.
 
 Appétences:
 
-* Machine learning explicable ([explicable.ai](https://explicable.ai))
+* Machine learning explicable ([explicable.ai](http://explicable.ai))
 * Machine learning causal
 * Indexation en haute dimension
 * Flux de données distribués basse latence
