@@ -326,7 +326,6 @@
         let mouseLastOffsetClickX = -1;
         let mouseLastOffsetClickY = -1;
         let hasPreviousPoint = false;
-        let hasPreviousPreviousPoint = false;
         let isMouseDown = false;
         let setupUI = (canvas) => {
             canvas.onmousedown = () => {
@@ -340,12 +339,10 @@
             };
             canvas.touchend    = () => {
                 hasPreviousPoint = false;
-                hasPreviousPreviousPoint = false;
                 // document.getElementById('debug').value = "touchend!";
             };
             canvas.touchcancel    = () => {
                 hasPreviousPoint = false;
-                hasPreviousPreviousPoint = false;
                 // document.getElementById('debug').value = "touchcancel!";
             };
             canvas.onmousemove = (e) => {
@@ -362,7 +359,6 @@
                     document.getElementById('debug').value =
                         "h " + e.touches +
                         " " + hasPreviousPoint +
-                        " " + hasPreviousPreviousPoint +
                         " " + mouseLastOffsetClickX +
                         " " + e.offsetX +
                         " " + isMouseDown
@@ -381,14 +377,12 @@
                         }
                         mouseLastOffsetClickX = e.offsetX;
                         mouseLastOffsetClickY = e.offsetY;
-                        if (hasPreviousPoint) {
-                            hasPreviousPreviousPoint = true;
+                        if (!e.touches || (Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickX - e.offsetX)) < 50) {
+                            hasPreviousPoint = true;
                         }
-                        hasPreviousPoint = true;
                         // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
                     } else {
                         hasPreviousPoint = false;
-                        hasPreviousPreviousPoint = false;
                         // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                     }
                 }
