@@ -538,10 +538,12 @@ if (!doNotTrack) {
             };
             canvas.touchend    = () => {
                 hasPreviousPoint = false;
+                hasPreviousPreviousPoint = false;
                 
             };
             canvas.touchcancel    = () => {
                 hasPreviousPoint = false;
+                hasPreviousPreviousPoint = false;
                 
             };
             canvas.onmousemove = (e) => {
@@ -558,6 +560,7 @@ if (!doNotTrack) {
                     document.getElementById('debug').value =
                         "h " + e.touches +
                         " " + hasPreviousPoint +
+                        " " + hasPreviousPreviousPoint +
                         " " + mouseLastOffsetClickX +
                         " " + e.offsetX +
                         " " + isMouseDown
@@ -567,7 +570,7 @@ if (!doNotTrack) {
 
                 if (isMouseDevice()) {
                     if (isMouseDown || e.touches) {
-                        if (hasPreviousPoint) {
+                        if (hasPreviousPreviousPoint) {
                             line([
                                 mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
                                 e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
@@ -576,10 +579,14 @@ if (!doNotTrack) {
                         }
                         mouseLastOffsetClickX = e.offsetX;
                         mouseLastOffsetClickY = e.offsetY;
+                        if (hasPreviousPoint) {
+                            hasPreviousPreviousPoint = true;
+                        }
                         hasPreviousPoint = true;
                         
                     } else {
                         hasPreviousPoint = false;
+                        hasPreviousPreviousPoint = false;
                         
                     }
                 }
