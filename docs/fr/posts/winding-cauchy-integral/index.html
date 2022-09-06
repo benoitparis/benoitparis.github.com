@@ -530,10 +530,13 @@ if (!doNotTrack) {
             canvas.onmousemove = (e) => {
                 e.preventDefault();
                 if (e.touches) {
-                    var touch = e.touches[0] || e.changedTouches[0];
-                    var realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-                    e.offsetX = touch.clientX-realTarget.getBoundingClientRect().x;
-                    e.offsetY = touch.clientY-realTarget.getBoundingClientRect().y;
+                    let touch = e.touches[0] || e.changedTouches[0];
+                    let realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                    e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
+                    e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
+                } else {
+                    mouseLastOffsetClickX = -1;
+                    document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                 }
 
                 if (isMouseDown || e.touches) {
@@ -547,8 +550,7 @@ if (!doNotTrack) {
                     mouseLastOffsetClickX = e.offsetX;
                     mouseLastOffsetClickY = e.offsetY;
                     document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
-                }
-                if (!isMouseDown) {
+                } else {
                     mouseLastOffsetClickX = -1;
                     document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                 }
