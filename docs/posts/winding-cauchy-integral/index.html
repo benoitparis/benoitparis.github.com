@@ -511,15 +511,12 @@ if (!doNotTrack) {
             ) {}
         }
 
-        function isTouchDevice() {
-            return (('ontouchstart' in window) ||
+        function isMobileTouchDevice() {
+            return ((('ontouchstart' in window) ||
                 (navigator.maxTouchPoints > 0) ||
-                (navigator.msMaxTouchPoints > 0));
+                (navigator.msMaxTouchPoints > 0)) && navigator.userAgentData.mobile);
         }
 
-        function isMouseDevice() {
-            return ('onmousedown' in window);
-        }
 
         
         let mouseLastOffsetX = 1;
@@ -527,6 +524,7 @@ if (!doNotTrack) {
         let mouseLastOffsetClickX = -1;
         let mouseLastOffsetClickY = -1;
         let hasPreviousPoint = false;
+        let lastDragTime = Date.now();
         let isMouseDown = false;
         let setupUI = (canvas) => {
             canvas.onmousedown = () => {
@@ -567,43 +565,26 @@ if (!doNotTrack) {
 
                 }
 
-                if (isMouseDevice()) {
-                    if (isMouseDown || e.touches) {
-                        if (hasPreviousPoint && ((Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickX - e.offsetX)) < 50)) {
-                            line([
-                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
-                            ]);
-                            repaint();
-                        }
-                        mouseLastOffsetClickX = e.offsetX;
-                        mouseLastOffsetClickY = e.offsetY;
-                        hasPreviousPoint = true;
-                        
-                    } else {
-                        hasPreviousPoint = false;
-                        
+                if (isMouseDown || e.touches) {
+                    const now = Date.now();
+                    if (hasPreviousPoint &&
+                        (!isMobileTouchDevice() || ((now - lastDragTime) < 2000))
+                    ) {
+                        line([
+                            mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                            e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                        ]);
+                        repaint();
                     }
+                    mouseLastOffsetClickX = e.offsetX;
+                    mouseLastOffsetClickY = e.offsetY;
+                    hasPreviousPoint = true;
+                    lastDragTime = now;
+                    
+                } else {
+                    hasPreviousPoint = false;
+                    
                 }
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
 
                 mouseLastOffsetX = e.offsetX;
                 mouseLastOffsetY = e.offsetY;
