@@ -19,9 +19,9 @@ Chaque pixel affiche par sa couleur son indice: la partie réelle donne la teint
 
 ## La formule
 
-Pendant la démonstration de la [Formule intégrale de Cauchy](https://fr.wikipedia.org/wiki/Formule_int%C3%A9grale_de_Cauchy), on tombe sur une formule remarquable. Formée à partir de composantes innocentes complexes, elle donne toujours un nombre entier et réel. De plus, assez mystérieusement, elle indique le nombre de tour que la courbe fait autour du point! Mais on exige que la courbe soit fermée sur elle même.
+Pendant la démonstration de la [Formule intégrale de Cauchy](https://fr.wikipedia.org/wiki/Formule_int%C3%A9grale_de_Cauchy), on tombe sur une formule remarquable. Formée à partir de composantes innocentes complexes, elle donne toujours un nombre entier et réel. De plus, assez mystérieusement, elle indique le nombre de tour que la courbe fait autour du point! Mais on exige que la courbe soit fermée sur elle-même.
 
-Ne me demandez pas une explication intuitive du phénomène. À vrai dire j'ai construit cette visualisation pour essayer de m'en faire une idée. [Vous pouvez tenter de construire la votre à partir de ces réponses](https://math.stackexchange.com/questions/4054/intuitive-explanation-of-cauchys-integral-formula-in-complex-analysis).
+Ne me demandez pas une explication intuitive du phénomène: À vrai dire j'ai construit cette visualisation pour essayer de m'en faire une idée. [Vous pouvez tenter de construire la votre à partir de ces réponses](https://math.stackexchange.com/questions/4054/intuitive-explanation-of-cauchys-integral-formula-in-complex-analysis).
 
 Du coup, que se passe-t-il si on ne referme pas la boucle? Eh bien la formule nous renvoie une 'erreur', sous la forme d'un nombre qui comporte désormais une partie imaginaire. Une zone devient positive et demande qu'on parte de ce point (luminance élevée), ou bien négative (faible luminance) si il faut qu'on y aille. On peut alors 'rendre le plan réel' en allant des parties lumineuses vers les sombres et effectivement clore les courbes sur elle-mêmes. La formule est fournie avec sa propre fonction de debogage!
 
@@ -33,7 +33,7 @@ Ceci signifie qu'on peut diviser une plus grande courbe en deux par un aller-ret
 
 ## Artéfacts
 
-On peut configurer des niveaux de précision pour utiliser des $dz$ plus ou moins grands. Une précision plus fine aura moins de pointillés, une meilleure fidélité de l'intégration, ce sera plus lente; cependant on pourrait accumuler plus d'erreur due à l'imprecision des nombres flottants.
+On peut configurer des niveaux de précision pour utiliser des $dz$ plus ou moins grands. Une précision plus fine aura moins de pointillés, une meilleure fidélité de l'intégration, ce sera plus lent; cependant on pourrait accumuler plus d'erreur due à l'imprecision des nombres flottants.
 
 Sur mobile il se peut que vous ne voyiez pas de surface unie sur des courbes fermées. C'est dû au fait que les résultats intermédiaires sont stockés dans des textures en nombres flottants, et que [WebGL ne donne que 4 bits sur mobile, alors qu'il en fournit 16 sur Desktop](https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats).
 
@@ -47,7 +47,7 @@ Bon, si vous voulez un calcul sur une zone de ~500x500 pixel pour une courbe de 
 
 J'utilise deux [`fragment shaders`](https://www.khronos.org/opengl/wiki/Fragment_Shader). Un pour projeter les parties réeles et imaginaires, que je stocke dans les channels rouge et vert, dans un espace teinte-saturation-luminance. J'ai choisi la teinte pour la partie réelle parce qu'elle illustre un 'degré de situation' pour un point. On voudra commenter la cohérence de cette situation dans un sens ou un autre: ce sera donc la luminance pour la partie imaginaire. Et on met une saturation constante. La teinte est coefficientée de telle sorte qu'un nombre entier de tours (12) nous ramène au rouge.
 
-L'autre `fragment shader` contient la formule, et deux textures sont interverties en lecture-écriture pour accumuler la somme. La programmation en [glsl](https://fr.wikipedia.org/wiki/OpenGL_Shading_Language)/WebGL est admirablement claire avec sa nature [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data). On donne les coordonnées (x,y) d'un pixel, et charge au programmeur de déterminer la couleur de ce pixel:
+L'autre `fragment shader` contient la formule, et deux textures sont interverties en lecture-écriture pour accumuler la somme. La programmation en [glsl](https://fr.wikipedia.org/wiki/OpenGL_Shading_Language)/WebGL est admirablement claire avec sa nature [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data); On donne les coordonnées (x,y) d'un pixel, et charge au programmeur de déterminer la couleur de ce pixel:
 
 {{< highlight glsl >}}
 void main(void) {                                                
