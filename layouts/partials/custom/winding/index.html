@@ -14,7 +14,6 @@
 
     <input id="aValue" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none; font-family: monospace"><br>
     <input id="console" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none; font-size: 12px;"><br>
-    <input id="debug" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none;"><br>
 
 
     <script id="fragment-shader-hsltorgb" type="x-shader/x-fragment">
@@ -328,20 +327,16 @@
         let setupUI = (canvas) => {
             canvas.onmousedown = () => {
                 isMouseDown = true;
-                //document.getElementById('debug').value = "onmousedown!";
             };
             canvas.touchstart  = canvas.onmousedown;
             canvas.onmouseup   = () => {
                 isMouseDown = false;
-                // document.getElementById('debug').value = "onmouseup!";
             };
             canvas.touchend    = () => {
                 hasPreviousPoint = false;
-                // document.getElementById('debug').value = "touchend!";
             };
             canvas.touchcancel    = () => {
                 hasPreviousPoint = false;
-                // document.getElementById('debug').value = "touchcancel!";
             };
             canvas.onmousemove = (e) => {
 
@@ -353,21 +348,20 @@
                     e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
                 }
 
-                if ((Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickX - e.offsetX)) > 50) {
-                    document.getElementById('debug').value =
-                        "h " + e.touches +
-                        " " + hasPreviousPoint +
-                        " " + mouseLastOffsetClickX +
-                        " " + e.offsetX +
-                        " " + isMouseDown
-                    ;
-
-                }
+                // if ((Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickX - e.offsetX)) > 50) {
+                //     document.getElementById('debug').value =
+                //         "h " + e.touches +
+                //         " " + hasPreviousPoint +
+                //         " " + mouseLastOffsetClickX +
+                //         " " + e.offsetX +
+                //         " " + isMouseDown
+                //     ;
+                // }
 
                 if (isMouseDown || e.touches) {
                     const now = Date.now();
                     if (hasPreviousPoint &&
-                        (!isMobileTouchDevice() || ((now - lastDragTime) < 2000))
+                        (!isMobileTouchDevice() || ((now - lastDragTime) < 1000))
                     ) {
                         line([
                             mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
@@ -379,10 +373,8 @@
                     mouseLastOffsetClickY = e.offsetY;
                     hasPreviousPoint = true;
                     lastDragTime = now;
-                    // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
                 } else {
                     hasPreviousPoint = false;
-                    // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                 }
 
                 mouseLastOffsetX = e.offsetX;

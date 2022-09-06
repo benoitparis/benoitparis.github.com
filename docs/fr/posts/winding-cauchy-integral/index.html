@@ -225,7 +225,6 @@ if (!doNotTrack) {
 
     <input id="aValue" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none; font-family: monospace"><br>
     <input id="console" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none; font-size: 12px;"><br>
-    <input id="debug" type="text" value="" style="width:512px; border:0; padding:0; pointer-events:none;"><br>
 
 
     <script id="fragment-shader-hsltorgb" type="x-shader/x-fragment">
@@ -527,20 +526,16 @@ if (!doNotTrack) {
         let setupUI = (canvas) => {
             canvas.onmousedown = () => {
                 isMouseDown = true;
-                
             };
             canvas.touchstart  = canvas.onmousedown;
             canvas.onmouseup   = () => {
                 isMouseDown = false;
-                
             };
             canvas.touchend    = () => {
                 hasPreviousPoint = false;
-                
             };
             canvas.touchcancel    = () => {
                 hasPreviousPoint = false;
-                
             };
             canvas.onmousemove = (e) => {
 
@@ -552,21 +547,20 @@ if (!doNotTrack) {
                     e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
                 }
 
-                if ((Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickX - e.offsetX)) > 50) {
-                    document.getElementById('debug').value =
-                        "h " + e.touches +
-                        " " + hasPreviousPoint +
-                        " " + mouseLastOffsetClickX +
-                        " " + e.offsetX +
-                        " " + isMouseDown
-                    ;
-
-                }
+                
+                
+                
+                
+                
+                
+                
+                
+                
 
                 if (isMouseDown || e.touches) {
                     const now = Date.now();
                     if (hasPreviousPoint &&
-                        (!isMobileTouchDevice() || ((now - lastDragTime) < 2000))
+                        (!isMobileTouchDevice() || ((now - lastDragTime) < 1000))
                     ) {
                         line([
                             mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
@@ -578,10 +572,8 @@ if (!doNotTrack) {
                     mouseLastOffsetClickY = e.offsetY;
                     hasPreviousPoint = true;
                     lastDragTime = now;
-                    
                 } else {
                     hasPreviousPoint = false;
-                    
                 }
 
                 mouseLastOffsetX = e.offsetX;
