@@ -556,6 +556,23 @@ if (!doNotTrack) {
                 }
                 document.getElementById('debug').value = "omm " + e.touches + " " + mouseLastOffsetClickX + " " + e.offsetX;
 
+                if (isMouseDevice()) {
+                    if (isMouseDown) {
+                        if (mouseLastOffsetClickX !== -1) {
+                            line([
+                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                            ]);
+                            repaint();
+                        }
+                        mouseLastOffsetClickX = e.offsetX;
+                        mouseLastOffsetClickY = e.offsetY;
+                        
+                    } else {
+                        mouseLastOffsetClickX = -1;
+                        
+                    }
+                }
                 if (isTouchDevice()) {
                     if (e.touches) {
                         if (mouseLastOffsetClickX !== -1) {
@@ -573,23 +590,6 @@ if (!doNotTrack) {
                         
                     }
 
-                }
-                if (isMouseDevice()) {
-                    if (isMouseDown) {
-                        if (mouseLastOffsetClickX !== -1) {
-                            line([
-                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
-                            ]);
-                            repaint();
-                        }
-                        mouseLastOffsetClickX = e.offsetX;
-                        mouseLastOffsetClickY = e.offsetY;
-                        
-                    } else {
-                        mouseLastOffsetClickX = -1;
-                        
-                    }
                 }
 
                 mouseLastOffsetX = e.offsetX;

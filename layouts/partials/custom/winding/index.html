@@ -355,6 +355,23 @@
                 }
                 document.getElementById('debug').value = "omm " + e.touches + " " + mouseLastOffsetClickX + " " + e.offsetX;
 
+                if (isMouseDevice()) {
+                    if (isMouseDown) {
+                        if (mouseLastOffsetClickX !== -1) {
+                            line([
+                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                            ]);
+                            repaint();
+                        }
+                        mouseLastOffsetClickX = e.offsetX;
+                        mouseLastOffsetClickY = e.offsetY;
+                        // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
+                    } else {
+                        mouseLastOffsetClickX = -1;
+                        // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
+                    }
+                }
                 if (isTouchDevice()) {
                     if (e.touches) {
                         if (mouseLastOffsetClickX !== -1) {
@@ -372,23 +389,6 @@
                         // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                     }
 
-                }
-                if (isMouseDevice()) {
-                    if (isMouseDown) {
-                        if (mouseLastOffsetClickX !== -1) {
-                            line([
-                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
-                            ]);
-                            repaint();
-                        }
-                        mouseLastOffsetClickX = e.offsetX;
-                        mouseLastOffsetClickY = e.offsetY;
-                        // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
-                    } else {
-                        mouseLastOffsetClickX = -1;
-                        // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
-                    }
                 }
 
                 mouseLastOffsetX = e.offsetX;
