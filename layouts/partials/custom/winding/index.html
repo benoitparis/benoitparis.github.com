@@ -325,7 +325,6 @@
             canvas.touchstart  = canvas.onmousedown;
             canvas.onmouseup   = () => {
                 isMouseDown = false;
-                mouseLastOffsetClickX = -1;
                 document.getElementById('debug').value = "onmouseup!";
             };
             canvas.touchend    = canvas.onmouseup;
@@ -349,7 +348,8 @@
                     mouseLastOffsetClickX = e.offsetX;
                     mouseLastOffsetClickY = e.offsetY;
                     document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
-                } else {
+                }
+                if (!isMouseDown) {
                     mouseLastOffsetClickX = -1;
                     document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                 }
