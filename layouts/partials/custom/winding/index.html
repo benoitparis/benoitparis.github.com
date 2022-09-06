@@ -325,6 +325,7 @@
         let mouseLastOffsetY = 1;
         let mouseLastOffsetClickX = -1;
         let mouseLastOffsetClickY = -1;
+        let hasPreviousPoint = false;
         let isMouseDown = false;
         let setupUI = (canvas) => {
             canvas.onmousedown = () => {
@@ -337,27 +338,27 @@
                 // document.getElementById('debug').value = "onmouseup!";
             };
             canvas.touchend    = () => {
-                mouseLastOffsetClickX = -1;
+                hasPreviousPoint = false;
                 // document.getElementById('debug').value = "touchend!";
             };
             canvas.touchcancel    = () => {
-                mouseLastOffsetClickX = -1;
+                hasPreviousPoint = false;
                 // document.getElementById('debug').value = "touchcancel!";
             };
             canvas.onmousemove = (e) => {
 
                 e.preventDefault();
-                if (e.touches) {
-                    let touch = e.touches[0] || e.changedTouches[0];
-                    let realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-                    e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
-                    e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
-                }
-                document.getElementById('debug').value = "omm " + e.touches + " " + mouseLastOffsetClickX + " " + e.offsetX;
+                // if (e.touches) {
+                //     let touch = e.touches[0] || e.changedTouches[0];
+                //     let realTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                //     e.offsetX = touch.clientX - realTarget.getBoundingClientRect().x;
+                //     e.offsetY = touch.clientY - realTarget.getBoundingClientRect().y;
+                // }
+                document.getElementById('debug').value = "omm " + e.touches + " " + hasPreviousPoint;
 
                 if (isMouseDevice()) {
                     if (isMouseDown) {
-                        if (mouseLastOffsetClickX !== -1) {
+                        if (hasPreviousPoint) {
                             line([
                                 mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
                                 e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
@@ -366,30 +367,31 @@
                         }
                         mouseLastOffsetClickX = e.offsetX;
                         mouseLastOffsetClickY = e.offsetY;
+                        hasPreviousPoint = true;
                         // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
                     } else {
-                        mouseLastOffsetClickX = -1;
+                        hasPreviousPoint = false;
                         // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                     }
                 }
-                if (isTouchDevice()) {
-                    if (e.touches) {
-                        if (mouseLastOffsetClickX !== -1) {
-                            line([
-                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
-                            ]);
-                            repaint();
-                        }
-                        mouseLastOffsetClickX = e.offsetX;
-                        mouseLastOffsetClickY = e.offsetY;
-                        // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
-                    } else {
-                        mouseLastOffsetClickX = -1;
-                        // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
-                    }
-
-                }
+                // if (isTouchDevice()) {
+                //     if (e.touches) {
+                //         if (mouseLastOffsetClickX !== -1) {
+                //             line([
+                //                 mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                //                 e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                //             ]);
+                //             repaint();
+                //         }
+                //         mouseLastOffsetClickX = e.offsetX;
+                //         mouseLastOffsetClickY = e.offsetY;
+                //         // document.getElementById('debug').value = "onmousemove touches! " + e.offsetX + " " + e.offsetY;
+                //     } else {
+                //         mouseLastOffsetClickX = -1;
+                //         // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
+                //     }
+                //
+                // }
 
                 mouseLastOffsetX = e.offsetX;
                 mouseLastOffsetY = e.offsetY;
