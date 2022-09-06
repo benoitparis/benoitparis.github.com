@@ -509,6 +509,11 @@ if (!doNotTrack) {
             ) {}
         }
 
+        function isTouchDevice() {
+            return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
+        }
 
         
         let mouseLastOffsetX = 1;
@@ -536,7 +541,6 @@ if (!doNotTrack) {
             };
             canvas.onmousemove = (e) => {
 
-
                 e.preventDefault();
                 if (e.touches) {
                     let touch = e.touches[0] || e.changedTouches[0];
@@ -546,22 +550,39 @@ if (!doNotTrack) {
                 }
                 document.getElementById('debug').value = "omm " + e.touches + " " + mouseLastOffsetClickX + " " + e.offsetX;
 
-                if (isMouseDown || e.touches) {
-                    if (mouseLastOffsetClickX !== -1 ||
-                        (e.touches && (Math.abs(mouseLastOffsetClickX - e.offsetX) + Math.abs(mouseLastOffsetClickY - e.offsetY)) < 50) 
-                    ) {
-                        line([
-                            mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
-                            e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
-                        ]);
-                        repaint();
+                if (isTouchDevice()) {
+                    if (e.touches) {
+                        if (mouseLastOffsetClickX !== -1) {
+                            line([
+                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                            ]);
+                            repaint();
+                        }
+                        mouseLastOffsetClickX = e.offsetX;
+                        mouseLastOffsetClickY = e.offsetY;
+                        
+                    } else {
+                        mouseLastOffsetClickX = -1;
+                        
                     }
-                    mouseLastOffsetClickX = e.offsetX;
-                    mouseLastOffsetClickY = e.offsetY;
-                    
+
                 } else {
-                    mouseLastOffsetClickX = -1;
-                    
+                    if (isMouseDown) {
+                        if (mouseLastOffsetClickX !== -1) {
+                            line([
+                                mouseLastOffsetClickX / CANVAS_SIZE_PX, 1 - mouseLastOffsetClickY / CANVAS_SIZE_PX,
+                                e.offsetX             / CANVAS_SIZE_PX, 1 - e.offsetY             / CANVAS_SIZE_PX
+                            ]);
+                            repaint();
+                        }
+                        mouseLastOffsetClickX = e.offsetX;
+                        mouseLastOffsetClickY = e.offsetY;
+                        
+                    } else {
+                        mouseLastOffsetClickX = -1;
+                        
+                    }
                 }
 
                 mouseLastOffsetX = e.offsetX;
