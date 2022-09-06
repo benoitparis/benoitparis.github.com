@@ -316,6 +316,10 @@
                 (navigator.msMaxTouchPoints > 0));
         }
 
+        function isMouseDevice() {
+            return ('onmousedown' in window);
+        }
+
         // UI setup helpers
         let mouseLastOffsetX = 1;
         let mouseLastOffsetY = 1;
@@ -368,7 +372,8 @@
                         // document.getElementById('debug').value = "onmousemove! " + e.offsetX + " " + e.offsetY;
                     }
 
-                } else {
+                }
+                if (isMouseDevice()) {
                     if (isMouseDown) {
                         if (mouseLastOffsetClickX !== -1) {
                             line([

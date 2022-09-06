@@ -515,6 +515,10 @@ if (!doNotTrack) {
                 (navigator.msMaxTouchPoints > 0));
         }
 
+        function isMouseDevice() {
+            return ('onmousedown' in window);
+        }
+
         
         let mouseLastOffsetX = 1;
         let mouseLastOffsetY = 1;
@@ -567,7 +571,8 @@ if (!doNotTrack) {
                         
                     }
 
-                } else {
+                }
+                if (isMouseDevice()) {
                     if (isMouseDown) {
                         if (mouseLastOffsetClickX !== -1) {
                             line([
