@@ -11,7 +11,7 @@ $$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
 
 ## Demo
 
-(faites glisser la souris sur la surface rouge)
+(faites glisser la souris/le pouce sur la surface rouge)
 
 {{< partial "custom/winding/index.html" >}}
 
@@ -35,7 +35,7 @@ Ceci signifie qu'on peut diviser une plus grande courbe en deux par un aller-ret
 
 On peut configurer des niveaux de précision pour utiliser des $dz$ plus ou moins grands. Une précision plus fine aura moins de pointillés, une meilleure fidélité de l'intégration, ce sera plus lente; cependant on pourrait accumuler plus d'erreur due à l'imprecision des nombres flottants.
 
-Sur mobile vous ne verrez probablement pas de surface unie sur des courbes fermées. C'est dû au fait que les résultats intermediaires sont stockés dans des textures en nombres flottants, et que [WebGL ne donne que 4 bits sur mobile, alors qu'il en fournit 16 sur Desktop](https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats).
+Sur mobile il se peut que vous ne voyiez pas de surface unie sur des courbes fermées. C'est dû au fait que les résultats intermédiaires sont stockés dans des textures en nombres flottants, et que [WebGL ne donne que 4 bits sur mobile, alors qu'il en fournit 16 sur Desktop](https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats).
 
 ## Code
 

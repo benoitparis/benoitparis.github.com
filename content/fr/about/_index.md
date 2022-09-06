@@ -9,8 +9,10 @@ Indépendant sur Paris.
 
 Appétences:
 
-* Machine learning explicable
+* Machine learning explicable ([explicable.ai](https://explicable.ai))
+* Machine learning causal
+* Indexation en haute dimension
 * Flux de données distribués basse latence
 * Open data
 
-Contact info: pro@benoit.paris, ou bien perso@benoit.paris
+Contact info: pro+blog@benoit.paris, ou bien perso+blog@benoit.paris

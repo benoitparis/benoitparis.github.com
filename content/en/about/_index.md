@@ -9,8 +9,10 @@ Independent contractor in Paris. Not against remote gigs.
 
 Interests:
 
-* Explainable machine learning
+* Explainable machine learning ([explicable.ai](https://explicable.ai))
+* Causal Machine learning
+* High dimensional indexing
 * Low Latency Distributed Data Streaming
 * Open Data
 
-Contact info: pro@benoit.paris, or perso@benoit.paris
+Contact info: pro+blog@benoit.paris, or perso+blog@benoit.paris

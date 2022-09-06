@@ -30,7 +30,7 @@
         <meta property="og:title" content="Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL" />
 <meta property="og:description" content="Indice d&rsquo;une courbe autour d&rsquo;un point avec une Intégrale de Cauchy, en WebGL Voici une visualisation de l&rsquo;indice -le nombre de tours- n(γ,a) d&rsquo;une courbe γ autour du point a, exprimée selon un cas spécial de la Formule intégrale de Cauchy; avec une courbe qu&rsquo;on ne ferme pas nécessairement sur elle-même. Les nombres complexes sont représentés dans un espace teinte-saturation.
 $$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
-Demo (faites glisser la souris sur la surface rouge)" />
+Demo (faites glisser la souris/le pouce sur la surface rouge)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://benoit.paris/fr/posts/winding-cauchy-integral/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-08-24T15:53:54+02:00" />
@@ -44,7 +44,7 @@ Demo (faites glisser la souris sur la surface rouge)" />
 <meta name="twitter:title" content="Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL"/>
 <meta name="twitter:description" content="Indice d&rsquo;une courbe autour d&rsquo;un point avec une Intégrale de Cauchy, en WebGL Voici une visualisation de l&rsquo;indice -le nombre de tours- n(γ,a) d&rsquo;une courbe γ autour du point a, exprimée selon un cas spécial de la Formule intégrale de Cauchy; avec une courbe qu&rsquo;on ne ferme pas nécessairement sur elle-même. Les nombres complexes sont représentés dans un espace teinte-saturation.
 $$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
-Demo (faites glisser la souris sur la surface rouge)"/>
+Demo (faites glisser la souris/le pouce sur la surface rouge)"/>
 
     <link rel="stylesheet" href="/style.min.5297c96c59a52afaa5bcda4a6cedf3813081f64025c209b25b2ee6d0c8f74d462b625ad3404a92a14d7a51b4ec0a420337ae70f426fa4bce2d5f7459a3ca7274.css" integrity="sha512-UpfJbFmlKvqlvNpKbO3zgTCB9kAlwgmyWy7m0Mj3TUYrYlrTQEqSoU16UbTsCkIDN65w9Cb6S84tX3RZo8pydA==">
 
@@ -208,7 +208,7 @@ if (!doNotTrack) {
 <p>Voici une visualisation de <a href="https://fr.wikipedia.org/wiki/Indice_(analyse_complexe)">l&rsquo;indice -le nombre de tours-</a> <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D6FE TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="2"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo stretchy="false">(</mo><mi>γ</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> d&rsquo;une courbe <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D6FE TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>γ</mi></math></mjx-assistive-mml></mjx-container> autour du point <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi></math></mjx-assistive-mml></mjx-container>, exprimée selon un cas spécial de la <a href="https://fr.wikipedia.org/wiki/Formule_int%C3%A9grale_de_Cauchy">Formule intégrale de Cauchy</a>; avec une courbe qu&rsquo;on ne ferme pas nécessairement sur elle-même. Les nombres complexes sont représentés dans un espace teinte-saturation.</p>
 <p>$$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$</p>
 <h2 id="demo">Demo</h2>
-<p>(faites glisser la souris sur la surface rouge)</p>
+<p>(faites glisser la souris/le pouce sur la surface rouge)</p>
 <div id="root-contour" style="text-align: center;">
 
     <button onclick="location.reload();">Reset</button>
@@ -728,7 +728,7 @@ if (!doNotTrack) {
 
 <h2 id="artéfacts">Artéfacts</h2>
 <p>On peut configurer des niveaux de précision pour utiliser des $dz$ plus ou moins grands. Une précision plus fine aura moins de pointillés, une meilleure fidélité de l&rsquo;intégration, ce sera plus lente; cependant on pourrait accumuler plus d&rsquo;erreur due à l&rsquo;imprecision des nombres flottants.</p>
-<p>Sur mobile vous ne verrez probablement pas de surface unie sur des courbes fermées. C&rsquo;est dû au fait que les résultats intermediaires sont stockés dans des textures en nombres flottants, et que <a href="https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats">WebGL ne donne que 4 bits sur mobile, alors qu&rsquo;il en fournit 16 sur Desktop</a>.</p>
+<p>Sur mobile il se peut que vous ne voyiez pas de surface unie sur des courbes fermées. C&rsquo;est dû au fait que les résultats intermédiaires sont stockés dans des textures en nombres flottants, et que <a href="https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats">WebGL ne donne que 4 bits sur mobile, alors qu&rsquo;il en fournit 16 sur Desktop</a>.</p>
 <h2 id="code">Code</h2>
 <p><a href="https://github.com/benoitparis/winding-contour-cauchy">Ici</a></p>
 <h2 id="construction">Construction</h2>

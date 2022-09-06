@@ -15,7 +15,7 @@
       <guid>https://benoit.paris/posts/winding-cauchy-integral/</guid>
       <description>Winding numbers using a Cauchy integral, with WebGL This is what the winding number n(γ,a) of curve γ around point a, expressed as special case of Cauchy&amp;rsquo;s integral formula looks like on potentially non-closed loops, with complex numbers mapped to a hue-luminance space.
 $$ n(\gamma ,a) = \frac{1}{2 \pi i}\int_{\gamma}^{}\frac{1}{z-a}dz $$
-Demo (drag your mouse across the red canvas)
+Demo (drag your mouse/thumb across the red canvas)
 ResetShuffleCircleSquareLevy Dragon+-This animation requires WebGL</description>
     </item>
     
