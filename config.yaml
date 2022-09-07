@@ -1,14 +1,17 @@
 baseURL: https://benoit.paris/
-languageCode: en
+languageCode: en-us
 defaultContentLanguage: en
 title: benoit.paris
 disqusShortname: benoit-paris
 googleAnalytics: G-XKH89Y6DXC
 theme: 'hugo-theme-monochrome'
 publishDir: docs
+author:
+  name: Benoît Paris
+copyright: Copyright © 2022 - Benoît Paris
 
 params:
-  footer: Copyright © 2022 by Benoît Paris
+  footer: Copyright © 2022 - Benoît Paris
   enable_math: true
   enable_site_search: false
 

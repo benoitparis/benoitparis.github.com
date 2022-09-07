@@ -6,6 +6,7 @@
     <description>Recent content in Blog on benoit.paris</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr</language>
+    <copyright>Copyright © 2022 - Benoît Paris</copyright>
     <lastBuildDate>Tue, 06 Sep 2022 12:53:54 +0200</lastBuildDate><atom:link href="https://benoit.paris/fr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL</title>

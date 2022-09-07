@@ -5,6 +5,7 @@
     <link>https://benoit.paris/tags/</link>
     <description>Recent content in Tags on benoit.paris</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://benoit.paris/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <copyright>Copyright © 2022 - Benoît Paris</copyright><atom:link href="https://benoit.paris/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
