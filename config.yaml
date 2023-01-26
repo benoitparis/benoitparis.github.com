@@ -53,7 +53,7 @@ languages:
           weight: 70
         - identifier: CV
           name: CV
-          url: https://benoit.paris/CV_Benoit_Paris.pdf
+          url: https://benoit.paris/CV_Benoit_Paris_EN.pdf
           weight: 100
   fr:
     #markup:
@@ -102,7 +102,7 @@ languages:
         weight: 70
       - identifier: CV
         name: CV
-        url: https://benoit.paris/CV_Benoit_Paris.pdf
+        url: https://benoit.paris/CV_Benoit_Paris_FR.pdf
         weight: 100
 
 markup:
