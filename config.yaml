@@ -8,10 +8,10 @@ theme: 'hugo-theme-monochrome'
 publishDir: docs
 author:
   name: Benoît Paris
-copyright: Copyright © 2022 - Benoît Paris
+copyright: Copyright © 2022-2023 - Benoît Paris
 
 params:
-  footer: Copyright © 2022 - Benoît Paris
+  footer: Copyright © 2022-2023 - Benoît Paris
   enable_math: true
   enable_site_search: false
 
@@ -47,6 +47,10 @@ languages:
           name: Github
           url: https://github.com/benoitparis
           weight: 50
+        - identifier: StackOverflow
+          name: StackOverflow
+          url: https://stackoverflow.com/users/254934/benoitparis
+          weight: 70
         - identifier: CV
           name: CV
           url: https://benoit.paris/CV_Benoit_Paris.pdf
@@ -92,6 +96,10 @@ languages:
         name: Github
         url: https://github.com/benoitparis
         weight: 50
+      - identifier: StackOverflow
+        name: StackOverflow
+        url: https://stackoverflow.com/users/254934/benoitparis
+        weight: 70
       - identifier: CV
         name: CV
         url: https://benoit.paris/CV_Benoit_Paris.pdf
