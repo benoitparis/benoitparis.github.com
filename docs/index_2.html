@@ -1,0 +1,96 @@
+
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.2.0"> </script>
+    <title>JAX Raytracer</title>
+  </head>
+  <body>
+    <h4>JAX Raytracer</h4><hr/>
+    <canvas id="jax-raytracer"></canvas>
+    <h4>Demo</h4><hr/>
+
+
+    <script type="text/javascript">
+      let model;
+      let canvas;
+      async function setup() {
+        tf.setBackend('cpu'); // OK
+        // tf.setBackend('webgl'); // KO
+        // tf.env().set('WEBGL_USE_SHAPES_UNIFORMS', true);
+        // tf.env().set('WEBGL_USE_SHAPES_UNIFORMS', false);
+        // tf.env().set('WEBGL_PACK', false);
+        // tf.env().set('WEBGL_CONV_IM2COL', false);
+        model = await tf.loadGraphModel('/model.json');
+        console.log(tf.getBackend());
+        console.log(tf.env());
+        console.log(model);
+        canvas = document.getElementById("jax-raytracer");
+
+      }
+
+      const start = Date.now()
+      async function getOutput() {
+
+        let time = ((Date.now()-start) / 1000);
+        // console.log(time);
+        const x = tf.tensor([time], [1]);
+        // const x = tf.tensor([1.0], [1]);
+        // console.log(x);
+        // console.log(x.dataSync());
+        let result = model.predict(x);
+        // console.log(result.shape);
+        // console.log(result);
+        // console.log(result.dataSync());
+        console.log(tf.memory());
+
+        await tf.browser.toPixels(result, canvas);
+        // tf.dispose(x);
+        // tf.dispose(result);
+        requestAnimationFrame(getOutput)
+
+      }
+      setup().then(getOutput);
+
+
+    </script>
+
+    <h4>Pourquoi donc?</h4><hr/>
+Dans cet article, je vais essayer de vous convaincre que l'utilisation de ces outils ensemble pour faire de la 3D fait sens; tant bien même qu'ils sont prévus pour faire du Deep Learning initialement!
+
+Je me suis lancé dans cette démo principalement pour les détourner de leur but originel, mais aussi quand même pour avoir une occasion de plus d'utiliser ces nouveaux outils technologiques.
+--TODO traduire
+    In this article I will try to convince you that the use of these tools together sort of makes sense, even if this is not their primary ML purposes.
+    I did this mostly for mis-use fun, and try these new shiny toys though ;)
+    <h4>Raymarching</h4><hr/>
+
+    description:
+    define objects with SD Functions, yay mathematical purity ftw
+    shoot rays the direction of which is defined by each pixel,
+    hit an object (through sphere steps)
+    reflect off it
+    see if our new direction is sort of aligned with a light source
+    <h4>Tensorflowjs</h4><hr/>
+
+    it's just functions over arrays, who else does that? tensorflow at al
+    and there's a possibility to translate it to a browser, and just like regular 3D in the browser, it uses the webgl under the hood
+    re can just define our pileline in python
+    <h4>JAX</h4><hr/>
+
+    in the reflection, we need normals. usually we take 3 epsilons, consider the gradient linear locally and fit a function
+    but we could have had it at compile time!
+    mmmmmppphhh mathematical purity, yiissss
+    <h4>Geometric Algebra</h4><hr/>
+
+    new kid on the block, which generalizes relation between axes, abstracting complex numbers and quaternions in the same concept.
+    powerful stuff: describes maxwell as a one-liner (@40 here, watch the whole video it's worth it)
+    We'll want our demo to rotate on user input. There's rotation matrices, but booooring
+    And look, someone already did the work with JAXGA
+    <h4>Conclusion</h4><hr/>
+    mathematically beautiful, another step in having higher level languages that are still mechanically sympathetical
+
+
+
+
+  </body>
+</html>
+  
