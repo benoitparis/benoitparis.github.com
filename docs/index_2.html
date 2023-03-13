@@ -6,7 +6,8 @@
   </head>
   <body>
     <h4>JAX Raytracer</h4><hr/>
-    <canvas id="jax-raytracer"></canvas>
+    <canvas id="jax-raytracer"></canvas><hr/>
+    <div id="backend"></div>
     <h4>Demo</h4><hr/>
 
 
@@ -14,7 +15,7 @@
       let model;
       let canvas;
       async function setup() {
-        tf.setBackend('cpu'); // OK
+        // tf.setBackend('cpu'); // OK
         // tf.setBackend('webgl'); // KO
         // tf.env().set('WEBGL_USE_SHAPES_UNIFORMS', true);
         // tf.env().set('WEBGL_USE_SHAPES_UNIFORMS', false);
@@ -25,6 +26,7 @@
         console.log(tf.env());
         console.log(model);
         canvas = document.getElementById("jax-raytracer");
+        document.getElementById("backend").innerHTML = "backend: " + tf.env();
 
       }
 
