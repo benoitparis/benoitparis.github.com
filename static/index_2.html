@@ -26,7 +26,7 @@
         console.log(tf.env());
         console.log(model);
         canvas = document.getElementById("jax-raytracer");
-        document.getElementById("backend").innerHTML = "backend: " + tf.env();
+        document.getElementById("backend").innerHTML = ("backend: " + (tf.getBackend()));
 
       }
 
