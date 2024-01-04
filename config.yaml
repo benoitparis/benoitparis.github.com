@@ -2,7 +2,6 @@ baseURL: https://benoit.paris/
 languageCode: en-us
 defaultContentLanguage: en
 title: benoit.paris
-disqusShortname: benoit-paris
 googleAnalytics: G-XKH89Y6DXC
 theme: 'hugo-theme-monochrome'
 publishDir: docs
