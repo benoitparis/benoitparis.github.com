@@ -7,10 +7,10 @@ theme: 'hugo-theme-monochrome'
 publishDir: docs
 author:
   name: Benoît Paris
-copyright: Copyright © 2022-2023 - Benoît Paris
+copyright: Copyright © 2022-2024 - Benoît Paris
 
 params:
-  footer: Copyright © 2022-2023 - Benoît Paris
+  footer: Copyright © 2022-2024 - Benoît Paris
   enable_math: true
   enable_site_search: false
 

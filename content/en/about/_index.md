@@ -3,19 +3,20 @@ title: 'About'
 weight: 40
 ---
 
-Independent contractor in Paris. Not against remote gigs.
+Senior (Software|Data|Machine Learning) Engineer in Paris
 
 Currently looking for work!
 
-[LinkedIn](https://www.linkedin.com/in/benoitparis/), [Github](https://github.com/benoitparis), [CV](/CV_Benoit_Paris.pdf)
+[CV](/CV_Benoit_Paris_EN.pdf), [LinkedIn](https://www.linkedin.com/in/benoitparis/), [Github](https://github.com/benoitparis), [Stackoverflow](https://stackoverflow.com/users/254934/benoitparis)
 
 Contact info: pro+blog@benoit.paris, or perso+blog@benoit.paris
 
 Interests:
 
-* Explainable machine learning ([explicable.ai](http://explicable.ai))
+* Data Architecture
+* Explainable machine learning (please do checkout [explicable.ai](http://explicable.ai))
 * Causal Machine learning
-* High dimensional indexing
-* Low Latency Distributed Data Streaming
+* High dimensional Data
 * Open Data
+* Low Latency Distributed Data Streaming
 
