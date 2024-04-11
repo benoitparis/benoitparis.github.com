@@ -9,7 +9,7 @@ Currently looking for work!
 
 [CV](/CV_Benoit_Paris_EN.pdf), [LinkedIn](https://www.linkedin.com/in/benoitparis/), [Github](https://github.com/benoitparis), [Stackoverflow](https://stackoverflow.com/users/254934/benoitparis)
 
-Contact info: pro+blog@benoit.paris, or perso+blog@benoit.paris
+Contact info: benoit.paris.753@gmail.com
 
 Interests:
 
