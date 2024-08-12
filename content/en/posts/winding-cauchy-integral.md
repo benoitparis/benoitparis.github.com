@@ -19,14 +19,14 @@ Each pixel displays its complex winding number: Real part as Hue, Imaginary part
 
 ## The formula
 
-Along the way to proving [Cauchy’s Integral Formula](https://en.wikipedia.org/wiki/Cauchy%27s_integral_formula), there's this winding number which I found remarquable. 
+Along the way to proving [Cauchy’s Integral Formula](https://en.wikipedia.org/wiki/Cauchy%27s_integral_formula), there's this winding number which I find remarkable. 
 Out of seemingly innocuous operations on complex numbers it always outputs a real integer number; And it mysteriously is the number of turns a curve takes around a point! But the curve has to be closed.
 
 Do not ask me to intuitively explain why it does that. In fact, I built this visualization to tinker with this formula and investigate. [You can go over there to try to make sense of it](https://math.stackexchange.com/questions/4054/intuitive-explanation-of-cauchys-integral-formula-in-complex-analysis).
 
 But what if you don't close the loop? Turns out the formula outputs 'undefined', in the form of a complex part to the winding number. One area is positive (high luminance) if it had too much 'going to' and negative (low luminance) if too little. To make the canvas mostly Real, you want to go from areas in need of 'going to' to areas that have too much of it, closing the loops! So the formula even comes with a debug function.
 
-Of note is that the inverse of a curve is the same curve going backwards: same integral, replace $dz$ by $-dz$. Also integrating (~summing, here) is commutative and can be made in any order; this is the shuffle option. 
+Of note is that the inverse of a curve is the same curve going backwards: same integral, replace {{< unsafe >}}<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 119.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D467 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>d</mi><mi>z</mi></math></mjx-assistive-mml></mjx-container>{{< /unsafe >}} by {{< unsafe >}}<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 119.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mo class="mjx-n"><mjx-c class="mjx-c2212"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D467 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo>−</mo><mi>d</mi><mi>z</mi></math></mjx-assistive-mml></mjx-container>{{< /unsafe >}}. Also integrating (~summing, here) is commutative and can be made in any order; this is the shuffle option. 
 
 This means you can split a bigger curve in two by adding a back and forth between two points on it, re-arranging the integrals. It is equivalent to identity, as you just added a curve and its inverse. And vice versa: merge two compatible smaller curves into a bigger one.
 
@@ -34,7 +34,7 @@ This means you can split a bigger curve in two by adding a back and forth betwee
 
 ## Visual glitches
 
-Precision can be tuned so that smaller or bigger $dz$ are used. A finer precision will give smaller black-white dottings, more integration accuracy, and lower speed; but you may also experience higher float loss accumulation.
+Precision can be tuned so that smaller or bigger {{< unsafe >}}<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 119.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D467 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>d</mi><mi>z</mi></math></mjx-assistive-mml></mjx-container>{{< /unsafe >}} are used. A finer precision will give smaller black-white dottings, more integration accuracy, and lower speed; but you may also experience higher float loss accumulation.
 
 On mobile you may experience inaccurate winding numbers: non-smooth colors inside closed loops. This is due to intermediate results being written to float textures, and [WebGL on mobile often only has 4 bits per channel when desktop offers 16 bits](https://webglfundamentals.org/webgl/lessons/webgl-precision-issues.html#texture-formats).
 
