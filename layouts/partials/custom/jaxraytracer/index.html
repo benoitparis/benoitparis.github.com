@@ -1,0 +1,39 @@
+gi<div style="text-align: center;">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0"></script>
+    <canvas id="jax-raytracer"></canvas>
+    <div id="backend"></div>
+    <script type="text/javascript">
+        let model;
+        let canvas;
+        let mouseX = 0, mouseY = 0;
+        const start = Date.now();
+
+        function handleMove(event) {
+            let rect = canvas.getBoundingClientRect();
+            mouseX = event.clientX - rect.left;
+            mouseY = event.clientY - rect.top;
+        }
+
+        async function setup() {
+            model = await tf.loadGraphModel("/model.json");
+            canvas = document.getElementById("jax-raytracer");
+            canvas.addEventListener("mousemove", handleMove);
+            canvas.addEventListener("touchmove", handleMove);
+            document.getElementById("backend").innerHTML = ("Backend used by tfjs: " + tf.getBackend());
+        }
+
+        async function predictLoop() {
+            const time = (Date.now() - start) / 1000;
+            const x = tf.tensor1d([time, mouseX, mouseY]);
+            const result = await model.executeAsync(x);
+
+            await tf.browser.toPixels(result, canvas);
+            tf.dispose(x);
+            tf.dispose(result);
+            requestAnimationFrame(predictLoop);
+        }
+
+        setup().then(predictLoop);
+    </script>
+</div>
+  
