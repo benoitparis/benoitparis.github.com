@@ -5,7 +5,7 @@ weight: 40
 
 Senior (Software|Data|Machine Learning) Engineer in Paris
 
-Currently employed at [Luckycart](https://www.luckycart.com/)
+Currently employed at [Luckycart](https://www.luckycart.com/), French MarTech, working on product recommendations.
 
 [CV](/CV_Benoit_Paris_EN.pdf), [LinkedIn](https://www.linkedin.com/in/benoitparis/), [Github](https://github.com/benoitparis), [Stackoverflow](https://stackoverflow.com/users/254934/benoitparis)
 
