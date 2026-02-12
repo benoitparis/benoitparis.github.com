@@ -1,6 +1,6 @@
 ---
 title: "Un Ray-Marcher WebGL en Python, avec JAX"
-date: 2024-08-12T12:53:54+02:00
+date: 2026-02-27T15:53:54+02:00
 ---
 
 # Un Ray-Marcher WebGL en Python, avec JAX et TensorFlow.js
