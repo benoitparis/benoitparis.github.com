@@ -258,7 +258,7 @@ truly meant for: a graphics renderer.</p>
 <p>Why, do you ask? Well, the animated image above is a 3-dimensional [512 pixels][512 pixels][3 colors] array for starters
 (or tensor, if you like). And we can define its content from the output of a function.
 Start from mouse position and time input, plug in some maths, hard-code a sphere and a cube in there, and voilà, pixels are painted!</p>
-<p><a href="https://github.com/benoitparis/jax-raytracer">And for our first trick here is the code</a>, at about just 100 lines of <em>Python</em>. Yes, Python for browser code, because <a href="https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/README.md">JAX can also be exported and run on the browser. On WebGL</a>.</p>
+<p><a href="https://github.com/benoitparis/jax-raytracer/blob/master/main.py">And for our first trick here is the code</a>, at about just 100 lines of <em>Python</em>. Yes, Python for browser code, because <a href="https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/README.md">JAX can also be exported and run on the browser. On WebGL</a>.</p>
 <p>Below are some of the techniques used and where JAX shines:</p>
 <h2 id="distances">Distances</h2>
 <p><a href="https://en.wikipedia.org/wiki/Polygon_mesh">We won&rsquo;t be drawing polygons here</a>. We&rsquo;ll be using <a href="https://en.wikipedia.org/wiki/Signed_distance_function">Signed Distance Functions (SDF)</a>. These have a lot going for them:</p>

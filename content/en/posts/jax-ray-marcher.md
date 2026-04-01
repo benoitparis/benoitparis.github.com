@@ -23,7 +23,7 @@ Why, do you ask? Well, the animated image above is a 3-dimensional [512 pixels][
 (or tensor, if you like). And we can define its content from the output of a function. 
 Start from mouse position and time input, plug in some maths, hard-code a sphere and a cube in there, and voilà, pixels are painted!
 
-[And for our first trick here is the code](https://github.com/benoitparis/jax-raytracer), at about just 100 lines of _Python_. Yes, Python for browser code, because [JAX can also be exported and run on the browser. On WebGL](https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/README.md).
+[And for our first trick here is the code](https://github.com/benoitparis/jax-raytracer/blob/master/main.py), at about just 100 lines of _Python_. Yes, Python for browser code, because [JAX can also be exported and run on the browser. On WebGL](https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/README.md).
 
 Below are some of the techniques used and where JAX shines:
 
