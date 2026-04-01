@@ -13,7 +13,7 @@ date: 2025-04-01T18:00:00+02:00
 
 ## Why, though?
 
-Well, I've been drooling over this tool the cool kids use, and wondering how I can join the gang. It's called JAX.
+Well, I've been drooling over this tool the cool kids use, and wondering how I can join the gang. It's called [JAX](https://docs.jax.dev/en/latest/).
 
 It's got GPU accelerated functions over n-dimensional arrays. And built-in compile-time differentiability of
 these!? Auto-vectorization?? And you just have to do like with numpy. What's not to like? Go home APL! So I've been doing the obvious, the thing JAX was
