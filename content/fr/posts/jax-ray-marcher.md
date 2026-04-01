@@ -1,9 +1,9 @@
 ---
-title: "Un Ray-Marcher WebGL en Python, avec JAX"
-date: 2026-02-27T15:53:54+02:00
+title: "La seule vraie utilisation de JAX: Les Ray-Marchers WebGL en Python"
+date: 2025-04-01T18:00:00+02:00
 ---
 
-# Un Ray-Marcher WebGL en Python, avec JAX et TensorFlow.js
+# La seule vraie utilisation de JAX: Les Ray-Marchers WebGL en Python
 
 
 ## Démo
@@ -14,14 +14,14 @@ date: 2026-02-27T15:53:54+02:00
      
 ## Mais pourquoi donc ?
 
-Il y a cet outil que les gens cool utilisent, et je me demandais comment je pourrais faire partie du club. L'outil, c'est JAX.
+Il y a cet outil que les gens stylés utilisent, et je me demandais comment je pourrais faire partie du club. L'outil, c'est JAX.
 
 Ça accélère des fonctions sur des arrays à n dimensions, sur GPU. Et avec différentiabilité intégrée au moment de la compilation de celles-ci !? Avec l'auto-vectorisation en prime ?? Et il suffirait de faire comme avec numpy ? Qu'est-ce qu'on peut lui demander de plus ? Rentre chez toi APL !
 
 Si vous faites du Machine Learning avec JAX, vous avez tort. J'ai réalisé ici la vraie raison d'être de JAX, ce pour quoi il a été
 réellement conçu: un moteur de rendu graphique.
 
-Pourquoi, me demandez-vous ? Eh bien, l'image ci-dessus est tout bonnement un tableau à 3 dimensions [512 pixels][512 pixels][3 couleurs] (ou un tenseur, si vous préférez). Et nous pouvons définir son contenu à partir de la sortie d'une fonction.
+Pourquoi, me demandez-vous ? Eh bien, l'image animée ci-dessus est tout bonnement un tableau à 3 dimensions [512 pixels][512 pixels][3 couleurs] (ou un tenseur, si vous préférez). Et nous pouvons définir son contenu à partir de la sortie d'une fonction.
 Partez de la position de la souris et d'un indicateur de temps, ajoutez des maths, invoquez en dur une sphère et un cube là-dedans ; et voilà, chaque pixel aura une couleur !
 
 Et pour notre premier tour de magie, [voici le code de la démo ci-dessus](https://github.com/benoitparis/jax-raytracer); en seulement environ 100 lignes de _Python_. Oui, du Python pour du code navigateur, car [JAX peut aussi être exporté et exécuté dans le navigateur. Sur WebGL](https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/README.md).

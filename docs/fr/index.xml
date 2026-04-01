@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>fr</language>
     <copyright>Copyright © 2022-2026 - Benoît Paris</copyright>
-    <lastBuildDate>Tue, 06 Sep 2022 12:53:54 +0200</lastBuildDate><atom:link href="https://benoit.paris/fr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Apr 2025 18:00:00 +0200</lastBuildDate><atom:link href="https://benoit.paris/fr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>La seule vraie utilisation de JAX: Les Ray-Marchers WebGL en Python</title>
+      <link>https://benoit.paris/fr/posts/jax-ray-marcher/</link>
+      <pubDate>Tue, 01 Apr 2025 18:00:00 +0200</pubDate>
+      
+      <guid>https://benoit.paris/fr/posts/jax-ray-marcher/</guid>
+      <description>La seule vraie utilisation de JAX: Les Ray-Marchers WebGL en Python Démo (bougez votre souris/pouce sur l&amp;rsquo;image)
+Mais pourquoi donc ? Il y a cet outil que les gens stylés utilisent, et je me demandais comment je pourrais faire partie du club. L&amp;rsquo;outil, c&amp;rsquo;est JAX.
+Ça accélère des fonctions sur des arrays à n dimensions, sur GPU. Et avec différentiabilité intégrée au moment de la compilation de celles-ci !? Avec l&amp;rsquo;auto-vectorisation en prime ?</description>
+    </item>
+    
     <item>
       <title>Indice d&#39;une courbe autour d&#39;un point avec une Intégrale de Cauchy, en WebGL</title>
       <link>https://benoit.paris/fr/posts/winding-cauchy-integral/</link>

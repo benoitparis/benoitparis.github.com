@@ -1,9 +1,9 @@
 ---
-title: "A Python WebGL Ray-Marcher, using JAX"
-date: 2026-02-27T15:53:54+02:00
+title: "JAX's true calling: Ray-Marching renderers on WebGL"
+date: 2025-04-01T18:00:00+02:00
 ---
 
-# A Python WebGL Ray-Marcher, using JAX and TensorFlow.js
+# JAX's true calling: Ray-Marching renderers in Python on WebGL
 
 ## Demo
 
@@ -19,9 +19,9 @@ It's got GPU accelerated functions over n-dimensional arrays. And built-in compi
 these!? Auto-vectorization?? And you just have to do like with numpy. What's not to like? Go home APL! So I've been doing the obvious, the thing JAX was
 truly meant for: a graphics renderer.
 
-Why, do you ask? Well, the image above is a 3-dimensional [512 pixels][512 pixels][3 colors] array for starters
+Why, do you ask? Well, the animated image above is a 3-dimensional [512 pixels][512 pixels][3 colors] array for starters
 (or tensor, if you like). And we can define its content from the output of a function. 
-Start from mouse position and time input, plug in some maths, hard-code some a sphere and a cube in there, and voilà, pixels are painted!
+Start from mouse position and time input, plug in some maths, hard-code a sphere and a cube in there, and voilà, pixels are painted!
 
 [And for our first trick here is the code](https://github.com/benoitparis/jax-raytracer), at about just 100 lines of _Python_. Yes, Python for browser code, because [JAX can also be exported and run on the browser. On WebGL](https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/README.md).
 
@@ -45,8 +45,8 @@ ray_colors = jax.vmap(jax.vmap(ray_color, (None, 0, None)), (0, None, None))
 {{< /highlight >}}
 
 
-And last but not least, our last trick:
-
+And last but not least, our final trick:
+ 
 * The [gradient](https://en.wikipedia.org/wiki/Gradient) of the SDF is the normal to the surface. With differentiability, and just one keyword light can be [diffused](https://en.wikipedia.org/wiki/Diffuse_reflection) or [reflected](https://en.wikipedia.org/wiki/Reflection_(physics)#/media/File:Reflection_angles.svg). _And do it at compile-time_. No more run-time [epsilon trickery (lines 74-81 here)](https://www.shadertoy.com/view/MsBGW1). Mmmh, mathematical purity. A one-liner:
 
 

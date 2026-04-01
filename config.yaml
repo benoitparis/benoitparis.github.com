@@ -14,7 +14,7 @@ params:
   enable_math: true
   enable_site_search: false
 
-outputs: 
+outputs:
   home:
     - HTML
     - RSS

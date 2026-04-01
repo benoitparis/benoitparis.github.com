@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2022-2026 - Benoît Paris</copyright>
-    <lastBuildDate>Tue, 06 Sep 2022 12:53:54 +0200</lastBuildDate><atom:link href="https://benoit.paris/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Apr 2025 18:00:00 +0200</lastBuildDate><atom:link href="https://benoit.paris/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JAX&#39;s true calling: Ray-Marching renderers on WebGL</title>
+      <link>https://benoit.paris/posts/jax-ray-marcher/</link>
+      <pubDate>Tue, 01 Apr 2025 18:00:00 +0200</pubDate>
+      
+      <guid>https://benoit.paris/posts/jax-ray-marcher/</guid>
+      <description>JAX&amp;rsquo;s true calling: Ray-Marching renderers in Python on WebGL Demo (move your mouse/thumb across the image)
+Why, though? Well, I&amp;rsquo;ve been drooling over this tool the cool kids use, and wondering how I can join the gang. It&amp;rsquo;s called JAX.
+It&amp;rsquo;s got GPU accelerated functions over n-dimensional arrays. And built-in compile-time differentiability of these!? Auto-vectorization?? And you just have to do like with numpy. What&amp;rsquo;s not to like? Go home APL!</description>
+    </item>
+    
     <item>
       <title>Winding numbers using a Cauchy integral, with WebGL</title>
       <link>https://benoit.paris/posts/winding-cauchy-integral/</link>

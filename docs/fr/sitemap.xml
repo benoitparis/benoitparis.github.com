@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://benoit.paris/fr/</loc>
-    <lastmod>2022-09-06T12:53:54+02:00</lastmod>
+    <lastmod>2025-04-01T18:00:00+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://benoit.paris/fr/posts/</loc>
-    <lastmod>2022-09-06T12:53:54+02:00</lastmod>
+    <lastmod>2025-04-01T18:00:00+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -38,6 +38,19 @@
                 rel="alternate"
                 hreflang="fr"
                 href="https://benoit.paris/fr/about/"
+                />
+  </url><url>
+    <loc>https://benoit.paris/fr/posts/jax-ray-marcher/</loc>
+    <lastmod>2025-04-01T18:00:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://benoit.paris/posts/jax-ray-marcher/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://benoit.paris/fr/posts/jax-ray-marcher/"
                 />
   </url><url>
     <loc>https://benoit.paris/fr/posts/winding-cauchy-integral/</loc>
