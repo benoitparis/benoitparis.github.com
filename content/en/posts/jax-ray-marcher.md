@@ -35,7 +35,7 @@ Below are some of the techniques used and where JAX shines:
 
 * They're composable. Want the union of two objects? You take the minimum of their SDF. Want the intersection? max() it is. [Here is a non-exhaustive list of what you can do](https://iquilezles.org/articles/distfunctions/). Here, we'll be using [smooth version of a union](https://iquilezles.org/articles/smin/), as we want to preserve differentiability. If we had wanted the intersection, we could have used something akin to a softmax (I'm told this is a trendy function at the moment).
 
-* They contain help for moving in space without colliding the shape they represent. By definition if the closest point to an object is a length L away from you, then you can move by length L in any direction you like without colliding the object. That's [the raymarching / sphere tracing  algorithm](https://en.wikipedia.org/wiki/Ray_marching#Distance-aided_ray_marching).
+* They contain help for moving in space without colliding with the shape they represent. By definition if the closest point to an object is a length L away from you, then you can move by length L in any direction you like without hitting it. That's [the raymarching / sphere tracing  algorithm](https://en.wikipedia.org/wiki/Ray_marching#Distance-aided_ray_marching).
 
 * Did I mention they're functions? We can vectorize these! Using two invocations of JAX's `vmap`, we can transform functions assigned to single pixels into
   functions that compute all pixels of an image in parallel:

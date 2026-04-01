@@ -270,7 +270,7 @@ Start from mouse position and time input, plug in some maths, hard-code a sphere
 <p>They&rsquo;re composable. Want the union of two objects? You take the minimum of their SDF. Want the intersection? max() it is. <a href="https://iquilezles.org/articles/distfunctions/">Here is a non-exhaustive list of what you can do</a>. Here, we&rsquo;ll be using <a href="https://iquilezles.org/articles/smin/">smooth version of a union</a>, as we want to preserve differentiability. If we had wanted the intersection, we could have used something akin to a softmax (I&rsquo;m told this is a trendy function at the moment).</p>
 </li>
 <li>
-<p>They contain help for moving in space without colliding the shape they represent. By definition if the closest point to an object is a length L away from you, then you can move by length L in any direction you like without colliding the object. That&rsquo;s <a href="https://en.wikipedia.org/wiki/Ray_marching#Distance-aided_ray_marching">the raymarching / sphere tracing  algorithm</a>.</p>
+<p>They contain help for moving in space without colliding with the shape they represent. By definition if the closest point to an object is a length L away from you, then you can move by length L in any direction you like without hitting it. That&rsquo;s <a href="https://en.wikipedia.org/wiki/Ray_marching#Distance-aided_ray_marching">the raymarching / sphere tracing  algorithm</a>.</p>
 </li>
 <li>
 <p>Did I mention they&rsquo;re functions? We can vectorize these! Using two invocations of JAX&rsquo;s <code>vmap</code>, we can transform functions assigned to single pixels into
